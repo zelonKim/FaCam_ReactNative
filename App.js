@@ -24,10 +24,14 @@ import { ITEM_WIDTH, bottomSpace, getCalendarColumns, getDayColor, getDayText, s
 import { useCalendar } from './src/hook/use-calendar';
 import { useTodoList } from './src/hook/use-todo-list';
 import Calendar from './src/Calendar';
-import {Ionicons} from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import AddTodoInput from './src/AddTodoInput';
 import { useGallery } from './src/use-gallery';
 import * as ImagePicker from 'expo-image-picker';
+import MyDropDownPicker from './src/MyDropDownPicker';
+import TextInputModal from './src/TextInputModal';
+import BigImgModal from './BigImgModal';
+import ImageList from './src/ImageList';
 
 /*
 export default function App() {
@@ -447,35 +451,159 @@ const styles = StyleSheet.create({
 
 
 
-const width = Dimensions.get('screen').width;
-const columnSize = width / 3;
-
-
 
 
 export default function App() {
 
-  const {images, pickImage, deleteImage} = useGallery();
+  const {
+    pickImage, 
+    deleteImage, 
+    imagesWithAddButton, 
+    selectedAlbum,
+    textInputModalVisible,
+    openTextInputModal,
+    closeTextInputModal,
+    albumTitle,
+    setAlbumTitle,
+    addAlbum,
+    resetAlbumTitle,
+    isDropdownOpen,
+    openDropDown,
+    closeDropDown,
+    albums,
+    selectAlbum,
+    deleteAlbum,
+    bigImgModalVisible,
+    openBigImgModal,
+    closeBigImgModal,
+    selectImage,
+    selectedImage,
+    moveToPreviousImage,  
+    moveToNextImage,
+    showPreviousArrow,
+    showNextArrow
+  } = useGallery();
 
   const onPressOpenGallery = () => {
     pickImage();
   }
 
-  const renderItem = ({ item: {id, uri}, index }) => {
-    const onLongPress = () => deleteImage(id);
-    return (
-      <TouchableOpacity onLongPress={onLongPress}>
-        <Image source={{ uri }} style={{width: columnSize, height: columnSize}} />
-      </TouchableOpacity>
-    );
+  const onLongPressImage = (imageId) => deleteImage(imageId);
+
+
+  const onPressWatchAd = () => {
+    console.log('load ad')
+  }
+
+  const onPressAddAlbum = () => {
+    if(albums.length >= 2) {
+      Alert.alert("광고를 시청해야 앨범을 추가할 수 있습니다.","", [
+        {
+          style: "cancel",
+          text: "닫기"
+        },
+        {
+          text: "광고 시청",
+          onPress: onPressWatchAd,
+        }
+      ])
+    } else {
+      openTextInputModal();
+    }
   };
+  
+
+
+  const onSubmitEditing = () => {
+    if(!albumTitle) return;
+    addAlbum();
+    closeTextInputModal();
+    resetAlbumTitle();
+  }
+
+  const onPressTextInputModalBackdrop = () => {
+    closeTextInputModal();
+  }
+
+
+  const onPressBigImgModalBackdrop = () => {
+    closeBigImgModal();
+  }
+
+
+
+  const onPressHeader = () => {
+    if (isDropdownOpen) {
+      closeDropDown();
+    } else {
+      openDropDown();
+    }
+  }
+
+  const onPressAlbum = (album) => {
+    selectAlbum(album);
+    closeDropDown();
+  }
+
+  const onLongPressAlbum = (albumId) => {
+    deleteAlbum(albumId)
+  }
+
+  const onPressImage = (image) => {
+    selectImage(image);
+    openBigImgModal();
+  }
+
+  const onPressLeftArrow = () => {
+    moveToPreviousImage();
+  }
+
+  const onPressRightArrow = () => {
+    moveToNextImage();
+  }
+
+
+  
 
 
   return(
-    <View style={styles.container}>
-      <Button title="갤러리 열기" onPress={onPressOpenGallery} />
-      <FlatList data={images} renderItem={renderItem} numColumns={3} />
-    </View>
+    <SafeAreaView style={styles.container}>
+      <MyDropDownPicker 
+        isDropdownOpen={isDropdownOpen} 
+        onPressHeader={onPressHeader} 
+        selectedAlbum={selectedAlbum}
+        onPressAddAlbum={onPressAddAlbum} 
+        albums={albums}
+        onPressAlbum={onPressAlbum}
+        onLongPressAlbum={onLongPressAlbum}
+      />
+      
+      <TextInputModal 
+        modalVisible={textInputModalVisible} 
+        albumTitle={albumTitle} 
+        setAlbumTitle={setAlbumTitle}  
+        onSubmitEditing={onSubmitEditing}
+        onPressBackdrop={onPressTextInputModalBackdrop}
+      />
+
+      <BigImgModal 
+        modalVisible={bigImgModalVisible}
+        onPressBackdrop={onPressBigImgModalBackdrop}
+        selectedImage={selectedImage}
+        onPressLeftArrow={onPressLeftArrow}
+        onPressRightArrow={onPressRightArrow}
+        showPreviousArrow={showPreviousArrow}
+        showNextArrow={showNextArrow}
+      />
+
+      <ImageList
+        imagesWithAddButton={imagesWithAddButton}
+        onPressOpenGallery={onPressOpenGallery}
+        onPressImage={onPressImage}
+        onLongPressImage={onLongPressImage}
+      />
+
+    </SafeAreaView>
   )
 }
 
