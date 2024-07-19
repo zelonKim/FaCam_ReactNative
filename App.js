@@ -1,4 +1,4 @@
-import { Alert, Button, Dimensions, FlatList, FlatListComponent, Image, Keyboard, KeyboardAvoidingView, Platform, Pressable, SafeAreaView, ScrollView, StyleSheet, Switch, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, Button, Dimensions, FlatList, FlatListComponent, Image, Keyboard, KeyboardAvoidingView, Platform, Pressable, RefreshControl, SafeAreaView, ScrollView, SectionList, StyleSheet, Switch, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
 import StateWithClassComponent from './src/StateWithClassComponent'
@@ -8,7 +8,7 @@ import UseEffectWithFunctionalComponent   from './src/UseEffectWithFunctionalCom
 import Header from './src/Header';
 import { getBottomSpace, getStatusBarHeight } from 'react-native-iphone-x-helper';
 import Profile from "./src/Profile"
-import {myProfile} from './src/data';
+import {busStop, getBusNumColorByType, getRemainedTimeText, getSeatStatusText, getSections, myProfile} from './src/data';
 import {friendProfiles} from './src/data';
 import Margin from './src/Margin'
 import Division from './src/Division';
@@ -19,7 +19,7 @@ import Calculator from './src/Calculator';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import {runPracticeDayjs} from './src/practice-dayjs'
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { ITEM_WIDTH, bottomSpace, getCalendarColumns, getDayColor, getDayText, statusBarHeight } from './src/util';
 import { useCalendar } from './src/hook/use-calendar';
 import { useTodoList } from './src/hook/use-todo-list';
@@ -32,6 +32,10 @@ import MyDropDownPicker from './src/MyDropDownPicker';
 import TextInputModal from './src/TextInputModal';
 import BigImgModal from './BigImgModal';
 import ImageList from './src/ImageList';
+import BusInfo from './src/BusInfo';
+import { COLOR } from './src/color'
+import BookmarkButton from './src/BookmarkButton';
+import { useTheme } from './src/use-theme';
 
 /*
 export default function App() {
@@ -446,13 +450,16 @@ const styles = StyleSheet.create({
 }) 
 */
 
+
+
+
 /////////////////////////////
 
 
 
 
 
-
+/* 
 export default function App() {
 
   const {
@@ -614,4 +621,225 @@ const styles = StyleSheet.create({
     marginTop: 30
   }
 })
+ */
 
+
+/////////////////////////////////////
+
+
+
+const busStopBookmarkSize = 20;
+const busStopBookmarkPadding = 6;
+
+
+export default function App() {
+  const sections = getSections(busStop.buses);
+
+  const [now, setNow] = useState(dayjs())
+  const [refreshing, setRefreshing] = useState(false);
+
+
+  const { NEWCOLOR, toggleIsDark, isDark } = useTheme();
+
+  const onPressBusStopBookmark = () => {
+
+  }
+
+  const ListHeaderComponent = () => (
+    <View style={{ 
+        backgroundColor: NEWCOLOR.GRAY_3_GRAY_2,
+        height: 150,
+        justifyContent: "center", 
+        alignItems: "center",
+      }}>
+
+        <Margin height={10} />
+        
+        <Text style={{ color: NEWCOLOR.WHITE_BLACK, fontSize: 13 }}>{busStop.id}</Text>
+        <Margin height={4} />
+
+        <Text style={{ color: NEWCOLOR.WHITE_BLACK, fontSize: 20 }}>{busStop.name}</Text>
+        <Margin height={4} />
+
+        <Text style={{ color: NEWCOLOR.GRAY_1_GRAY_2, fontSize: 14 }}>{busStop.directionDescription}</Text>
+        <Margin height={20} />
+
+        <BookmarkButton 
+          NEWCOLOR={NEWCOLOR}
+          size={25} 
+          isBookmarked={busStop.isBookmarked}
+          onPress={onPressBusStopBookmark}
+          style={{ 
+            borderWidth: 0.3,
+            borderColor: NEWCOLOR.GRAY_1_GRAY_4,
+            borderRadius: (busStopBookmarkSize + busStopBookmarkPadding * 2) / 2,
+            padding: busStopBookmarkPadding,
+          }}
+        />
+        {/* <Margin height={25} /> */}
+
+        <Switch value={isDark} onValueChange={toggleIsDark} />
+    </View>
+  )
+
+
+  const renderSectionHeader = ({ section: { title }}) => (
+    <View style={{ 
+        paddingLeft: 13,
+        paddingVertical: 3,
+        backgroundColor: NEWCOLOR.GRAY_1_GRAY_4,
+        borderTopWidth: 0.5,
+        borderBottomWidth: 0.5,
+        borderTopColor: NEWCOLOR.GRAY_2_GRAY_3,
+        borderBottomColor: NEWCOLOR.GRAY_2_GRAY_3,   
+    }}>
+      <Text style={{ fontSize:12, color: NEWCOLOR.GRAY_4_GRAY_1 }}>{title}</Text>
+    </View>
+  );
+
+
+  const renderItem = ({ item: bus }) => {
+    const numColor = getBusNumColorByType(bus.type);
+
+    const firstNextBusInfo = bus.nextBusInfos?.[0] ?? null;
+    const secondNextBusInfo = bus.nextBusInfos?.[1] ?? null;
+    const newNextBusInfos = !firstNextBusInfo && !secondNextBusInfo ? [null] : [firstNextBusInfo, secondNextBusInfo];
+
+    //console.log(newNextBusInfos);
+
+
+    const processedNextBusInfos = newNextBusInfos.map((info) => {
+      if(!info) return {
+        hasInfo: false,
+        remainedTimeText: "도착정보 없음"
+      }
+
+      const { arrivalTime, numOfRemainedStops, numOfPassengers } = info;
+      const remainedTimeText = getRemainedTimeText(now, arrivalTime)
+      const seatStatusText = getSeatStatusText(bus.type, numOfPassengers)
+      return {
+          hasInfo: true,
+          remainedTimeText,
+          numOfRemainedStops,
+          seatStatusText,
+      };
+    });  
+
+    return(
+        <BusInfo 
+          NEWCOLOR={NEWCOLOR}
+          isBookmarked={bus.isBookmarked}
+          onPressBookmark={() => {}}
+          num={bus.num}
+          directionDescription={bus.directionDescription}
+          numColor={numColor}
+          processedNextBusInfos={processedNextBusInfos}
+      />
+    )
+  }
+
+
+
+
+  const ItemSeparatorComponent = () => (
+    <View style={{ width: "100%", height: 10, backgroundColor: NEWCOLOR.GRAY_1_GRAY_4 }} />
+  )
+
+
+  const ListFooterComponent = () => (
+    <Margin height={30} />
+  )
+
+
+
+  useEffect(() => {
+    const interval = setInterval(() => { // setInterval(함수, 시간간격): 주어진 시간간격마다 해당 함수를 호출하고, 인터벌을 반환함.
+      const newNow = dayjs();
+      setNow(newNow)
+    }, 10000)
+     
+    return () => { // 컴포넌트가 언마운트(제거)될때 호출함.
+      clearInterval(interval); // clearInterval(인터벌): 해당 인터벌을 종료함.
+    }
+  },[])
+
+
+
+
+
+
+  const onRefresh = () => {
+    console.log('리프레쉬됨.')
+    setRefreshing(true);
+  }
+
+
+  useEffect(() => {
+    if(refreshing) {
+        setNow(dayjs());
+        setRefreshing(false);
+    }
+  }, [refreshing])
+
+
+  return(
+    <View style={{
+      ...styles.container,
+      backgroundColor: NEWCOLOR.WHITE_BLACK
+    }}>
+      <View 
+        style={{ 
+          backgroundColor: COLOR.GRAY_3, 
+          width: "100%" }}>
+      <SafeAreaView style={{ flexDirection: "row", justifyContent: "space-between" }}>
+        <TouchableOpacity style={{ padding: 10 }}>
+          <SimpleLineIcons name="arrow-left" size={20} color={NEWCOLOR.WHITE_BLACK} />
+        </TouchableOpacity>
+        <TouchableOpacity style={{ padding: 10 }}>
+          <SimpleLineIcons name="home" size={20} color={NEWCOLOR.WHITE_BLACK} />
+        </TouchableOpacity>
+      </SafeAreaView>
+      <View 
+            style={{ 
+              position: "absolute",
+              width: "100%",
+              height: 500,
+              backgroundColor: "lightcoral",
+              backgroundColor: COLOR.GRAY_3,
+              zIndex: -1,
+            }} />
+      </View>
+
+      <SectionList
+        style={{ flex: 1, width: "100%" }}
+
+        sections={sections} // 각 섹션에 대한 data속성을 가진 객체의 배열을 renderSectionHeader의 section프로퍼티로 전달하고, 해당 data속성값은 renderItem의 item프로퍼티로 전달함.
+        
+        renderSectionHeader={renderSectionHeader} // 각 섹션의 헤더 컴포넌트를 지정함.
+        
+        renderItem={renderItem} // 각 섹션에 들어갈 아이템 컴포넌트를 지정함.
+
+        ItemSeparatorComponent={ItemSeparatorComponent} // 아이템을 구분해줄 컴포넌트를 지정함.
+
+        ListHeaderComponent={ListHeaderComponent} // 리스트 최상단의 헤더 컴포넌트를 지정함.
+
+        ListFooterComponent={ListFooterComponent} // 리스트 최하단의 푸터 컴포넌트를 지정함.
+
+        refreshControl={ // 스크롤을 올려서 새로고침 될때의 RefreshControl컴포넌트를 지정함. 
+          <RefreshControl
+            refreshing={refreshing} // 새로고침 진행중으로 유지할지 여부를 지정함.
+            onRefresh={onRefresh} // 새로고침 완료후에 실행할 함수를 지정함.
+          />
+        }
+        />
+    </View>
+  )
+}
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex:1,
+    marginTop: 30
+  }
+})
