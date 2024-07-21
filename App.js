@@ -1,4 +1,4 @@
-import { Alert, Button, Dimensions, FlatList, FlatListComponent, Image, Keyboard, KeyboardAvoidingView, Platform, Pressable, RefreshControl, SafeAreaView, ScrollView, SectionList, StyleSheet, Switch, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, Dimensions, FlatList, FlatListComponent, Image, Keyboard, KeyboardAvoidingView, Platform, Pressable, RefreshControl, SafeAreaView, ScrollView, SectionList, StyleSheet, Switch, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
 import StateWithClassComponent from './src/StateWithClassComponent'
@@ -21,8 +21,8 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import {runPracticeDayjs} from './src/practice-dayjs'
 import dayjs, { Dayjs } from 'dayjs';
 import { ITEM_WIDTH, bottomSpace, getCalendarColumns, getDayColor, getDayText, statusBarHeight } from './src/util';
-import { useCalendar } from './src/hook/use-calendar';
-import { useTodoList } from './src/hook/use-todo-list';
+import { useCalendar } from './src/use-calendar';
+import { useTodoList } from './src/use-todo-list';
 import Calendar from './src/Calendar';
 import { Ionicons } from '@expo/vector-icons';
 import AddTodoInput from './src/AddTodoInput';
@@ -36,6 +36,7 @@ import BusInfo from './src/BusInfo';
 import { COLOR } from './src/color'
 import BookmarkButton from './src/BookmarkButton';
 import { useTheme } from './src/use-theme';
+
 
 /*
 export default function App() {
@@ -627,7 +628,7 @@ const styles = StyleSheet.create({
 /////////////////////////////////////
 
 
-
+/* 
 const busStopBookmarkSize = 20;
 const busStopBookmarkPadding = 6;
 
@@ -676,7 +677,7 @@ export default function App() {
             padding: busStopBookmarkPadding,
           }}
         />
-        {/* <Margin height={25} /> */}
+        <Margin height={25} /> 
 
         <Switch value={isDark} onValueChange={toggleIsDark} />
     </View>
@@ -842,4 +843,155 @@ const styles = StyleSheet.create({
     flex:1,
     marginTop: 30
   }
-})
+}) 
+*/
+
+/////////////////////////////////
+
+
+
+
+import {useTranslation} from './src/use-translation'
+import {useCookie} from './src/use-cookie'
+import Button from './src/Button';
+import * as SplashScreen from 'expo-splash-screen';
+import LoadingView from './src/LoadingView';
+import LottieView from 'lottie-react-native';
+import { useFonts } from 'expo-font';
+import { I18n } from 'i18n-js';
+import { format } from 'react-string-format';
+
+
+export default function App() {
+
+  /*
+  const i18n = new I18n({ // new I18n( { 언어코드: { 키: '밸류'} } ): 해당 언어에 대한 키와 밸류를 가진 i18n객체를 생성함.
+    ko: {todayIs: "오늘은 {0}년 {1}월 {2}일이에요."},
+    en: {todayIs: "Today is {1}/{2}/{0}."},
+    zh: {todayIs: "今天是 {0} 年 {1} 月 {2} 日。"}
+  })
+  
+  i18n.locale = "ko"
+
+  const dateText = format(i18n.t('todayIs'), '2024', '12', '25');
+
+  return (
+    <View style={styles.topContainer}>
+      <Text>{dateText}</Text> 
+    </View>
+  )
+}
+*/
+
+
+SplashScreen.preventAutoHideAsync(); // 스플래쉬 스크린이 자동으로 숨겨지지 않도록 해줌.
+
+
+const { translator, locale, setLocale, format } = useTranslation();
+  const { cookieKey } = useCookie();
+
+  const [fontsLoaded] = useFonts({
+    'RIDIBatang': require('./assets/fonts/RIDIBatang.otf')
+  }) // useFonts( { '폰트명': require('폰트경로') } ): 해당 폰트가 로드되면 첫번째 인자로 true를 반환함.
+
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(()=> {
+    if (cookieKey !== "") {
+      setIsLoaded(true);
+    }
+  },[cookieKey])
+
+
+  useEffect(()=> {
+    if(locale !== null && fontsLoaded) {
+      SplashScreen.hideAsync(); // 스플래쉬 스크린을 숨겨줌.
+    }
+  }, [locale, fontsLoaded])
+
+
+  if(!isLoaded) return (
+    <LoadingView />
+  )
+
+  const y = new Date().getFullYear();
+  const m = new Date().getMonth() + 1;
+  const d = new Date().getDate();
+
+  const todayText = format(translator('today_is'), y, m, d);
+
+  const translatedText = translator(cookieKey) // i18n객체.t('키'): 해당 키와 매칭되는 밸류를 반환함.
+
+  const locales = ["ko", "en", "ja", "zh", "es"];
+
+  return (
+    <View style={styles.container}>
+
+      <SafeAreaView style={{ flex: 1 }}>
+          <View style={styles.topContainer}>
+            <Text style={styles.todayText}> {todayText} </Text>
+            <Text style={{ fontFamily: "RIDIBatang"}}> {translatedText} </Text>
+          </View>
+          
+          <View style={styles.bottomContainer}>
+            <View style={styles.buttonsContainer}>
+            {locales.map(item => (
+              <Button 
+              key={item}
+              onPress={() => setLocale(item)}
+              isSelected={locale === item}
+              text={item.toUpperCase()}
+              />
+            ))}
+          </View>
+          </View>
+      </SafeAreaView>
+
+      <LottieView 
+        autoPlay={true}
+        source={require('./assets/background.json')}
+        resize="cover"
+        style={{
+          position: "absolute",
+          zIndex: -1,
+         }}
+      />
+    </View>
+  )
+}
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  topContainer: {
+    flex: 3,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  todayText: {
+    fontFamily: "RIDIBatang", 
+    position: "absolute",
+    top: 70,
+    fontSize: 13,
+    color: "#8b658f",
+  },
+  cookieText: {
+    fontFamily: "RIDIBatang",
+    fontSize: 22,
+    color: "#372538",
+    textAlign: "center",
+    marginHorizontal: 30,
+  },
+  bottomContainer: {
+    flex: 1,
+    justifyContent: "flex-end",
+  },
+  buttonsContainer: {
+    flexDirection: "row",
+    alignSelf: "center",
+    marginBottom: 25,
+  },
+});
+
