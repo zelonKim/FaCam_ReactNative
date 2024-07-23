@@ -3,6 +3,7 @@ import { View } from "react-native";
 import { Typography } from "./Typography";
 
 export const HookTest = (props) => {
+    
     const text = useMemo(() => {
         return props.a + props.b;
     }, [props.a, props.b])
@@ -14,4 +15,5 @@ export const HookTest = (props) => {
             </Typography>
         </View>
     )
+    
 }

@@ -16,6 +16,12 @@ import { Divider } from './src/components/Divider';
 import { TabA } from './src/TabA';
 import { TabB } from './src/TabB';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { BottomTabnavigations } from './src/navigations/BottomTabNavigations';
+import { RootStackNavigations } from './src/navigations/RootStackNavigations';
+import { CounterScreen } from './src/screen/CounterScreen';
+import store from './src/store/store';
+import { Provider } from 'react-redux';
+
 
 /* 
 const Stack = createNativeStackNavigator();
@@ -262,7 +268,7 @@ export default function App() {
 /////////////////////
 
 
-
+/* 
 import { Header } from './src/components/Header/Header';
 import { HookTest } from './src/components/HookTest';
 import { useCallback, useState } from 'react';
@@ -280,7 +286,7 @@ export default function App() {
     <SafeAreaProvider>
       <View style={{ flex: 1 }}>
         <Header>
-          <Header.Title title='Hello'> </Header.Title>
+          <Header.Title title='Hello' />
         </Header>
 
         <View style={{ alignItems: 'center', justifyContent: 'center'}}>
@@ -299,3 +305,32 @@ export default function App() {
     </SafeAreaProvider>
   )
 } 
+ */
+
+
+////////////////////////
+
+
+
+
+/* export default function App() {
+  return (
+    <NavigationContainer>
+        <RootStackNavigations />
+    </NavigationContainer>
+  )
+}  */
+
+
+////////////////////////
+
+
+export default function App() {
+  return (
+   <SafeAreaProvider> 
+    <Provider store={store}>
+        <CounterScreen />
+    </Provider>
+   </SafeAreaProvider>
+  )
+}  

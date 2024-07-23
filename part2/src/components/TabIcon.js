@@ -30,6 +30,9 @@ import React from "react";
 // }
 
 
+/////////////////////////////////
+
+
 
 export const TabIcon = (props) => {
         if(props.visibleBadge) {
@@ -39,7 +42,7 @@ export const TabIcon = (props) => {
                         <Icon 
                             name={props.iconName} 
                             size={20} 
-                            color={'black'} />
+                            color={props.iconColor} />
                     </Badge>
                 </View>
             )
@@ -50,7 +53,7 @@ export const TabIcon = (props) => {
                 <Icon 
                     name={props.iconName} 
                     size={20} 
-                    color={'black'} />
+                    color={props.iconColor} />
             </View>
         )
 }
