@@ -51,9 +51,9 @@ export const TabIcon = (props) => {
         return(
             <View>
                 <Icon 
-                    name={props.iconName} 
-                    size={20} 
-                    color={props.iconColor} />
+                    iconName={props.iconName} 
+                    iconSize={20} 
+                    iconColor={props.iconColor} />
             </View>
         )
 }

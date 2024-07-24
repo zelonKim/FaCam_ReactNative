@@ -8,12 +8,13 @@ import { Button } from "../components/Button"
 import { Icon } from "../components/Icons"
 import * as FileSystem from 'expo-file-system'
 import * as MediaLibrary from 'expo-media-library';
+import { useDispatch, useSelector } from "react-redux"
+import { onClickFavorite } from "../actions/favorite"
 
 export const ImageDetailScreen = (props) => {
     const {width} = useWindowDimensions();
 
     const navigation = useNavigation();
-
     const route = useRoute();
 
     const [donwloading, setDownloading] = useState(false)
@@ -24,6 +25,16 @@ export const ImageDetailScreen = (props) => {
     }, [])
 
 
+    const dispatch = useDispatch();
+
+    const onPressFavorite = useCallback(() => {
+        dispatch(onClickFavorite(route.params.url))
+    }, [])
+
+
+    const isFavorite = useSelector((store) => {
+        return store.favorite.favoriteList.filter((item) => item === route.params.url).length > 0
+   })
 
 
     const onPressDownload = useCallback(async() => {
@@ -72,6 +83,9 @@ export const ImageDetailScreen = (props) => {
                     <Header.Icon iconName={'arrow-back'} onPress={onPressBack} />
                     <Header.Title title='IMAGE DETAIL' />
                 </Header.Group>
+
+                <Header.Icon iconName={ isFavorite ? 'heart' : 'heart-outline' } onPress={onPressFavorite} />
+
             </Header>
             <View style={{ flex:1, alignItems:'center', justifyContent:'center'}}>
                 <RemoteImage  url={route.params.url}  width={width}  height={width * 1.2} />

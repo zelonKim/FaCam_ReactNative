@@ -4,7 +4,6 @@ import { StyleSheet, Text, View } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { ScreenA } from './src/ScreenA';
 import { ScreenB } from './src/ScreenB';
-import { NestedStackNavigator } from './src/NestedStackNavigator';
 import { Ionicons } from '@expo/vector-icons';
 import { TabIcon } from './src/components/TabIcon';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -16,8 +15,9 @@ import { Divider } from './src/components/Divider';
 import { TabA } from './src/TabA';
 import { TabB } from './src/TabB';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { BottomTabnavigations } from './src/navigations/BottomTabNavigations';
+import { BottomTabNavigation, BottomTabnavigations } from './src/navigations/BottomTabNavigations';
 import { RootStackNavigations } from './src/navigations/RootStackNavigations';
+import { NestedStackNavigator } from './src/NestedStackNavigator';
 import { CounterScreen } from './src/screen/CounterScreen';
 import store from './src/store/store';
 import { Provider } from 'react-redux';
@@ -37,9 +37,7 @@ export default function App() {
     </NavigationContainer>
   );
 }   
-*/
-
-
+ */
 
 //////////////////////
 
@@ -319,18 +317,86 @@ export default function App() {
         <RootStackNavigations />
     </NavigationContainer>
   )
-}  */
+}   */
 
 
 ////////////////////////
 
 
-export default function App() {
+
+
+/* 
+import { createContext, useState } from 'react';
+
+
+export const CounterContext = createContext(); // 컨텍스트를 생성함.
+
+ export default function App() {
+  const counterState = useState(0);
+
   return (
    <SafeAreaProvider> 
-    <Provider store={store}>
+    <CounterContext.Provider value={counterState}>
         <CounterScreen />
-    </Provider>
+    </CounterContext.Provider>
    </SafeAreaProvider>
   )
+}   
+ */
+
+
+
+/////////////////
+
+
+
+// import { RecoilRoot } from 'recoil';
+ 
+//  export default function App() {
+//   return (
+//    <SafeAreaProvider> 
+//       <RecoilRoot>
+//         <CounterScreen />
+//       </RecoilRoot>
+//    </SafeAreaProvider>
+//   )
+// }   
+
+
+//////////////////
+
+
+
+/* 
+export default function App() {
+  return (
+    <NavigationContainer>
+        <Provider store={store}>
+          <RootStackNavigations />
+        </Provider>
+    </NavigationContainer>
+  )
+} 
+*/
+
+
+////////////////////
+
+
+
+
+
+export default function App() {
+  return (
+    <SafeAreaProvider>
+      <Provider store={store}>
+        <NavigationContainer>
+          <BottomTabNavigation />
+        </NavigationContainer>
+      </Provider>
+    </SafeAreaProvider>
+  )
 }  
+
+
+
