@@ -15,12 +15,14 @@ import { Divider } from './src/components/Divider';
 import { TabA } from './src/TabA';
 import { TabB } from './src/TabB';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { BottomTabNavigation, BottomTabnavigations } from './src/navigations/BottomTabNavigations';
-import { RootStackNavigations } from './src/navigations/RootStackNavigations';
+import { BottomTabNavigation, BottomTabnavigations } from './src/navigation/BottomTabNavigations';
+import { RootStackNavigations } from './src/navigation/RootStackNavigations';
 import { NestedStackNavigator } from './src/NestedStackNavigator';
-import { CounterScreen } from './src/screen/CounterScreen';
-import store from './src/store/store';
+import { CounterScreen } from './src/screens/CounterScreen';
 import { Provider } from 'react-redux';
+import { RootNavigation } from './src/navigation/RootNavigation';
+import { RecoilRoot } from 'recoil';
+import { RecoilCustomPersist } from './src/components/RecoilCustomPersist';
 
 
 /* 
@@ -384,19 +386,46 @@ export default function App() {
 
 
 
+/*
+ import { PersistGate } from 'redux-persist/integration/react';
+import { store, persistor } from './src/store/store';
 
 
 export default function App() {
   return (
     <SafeAreaProvider>
       <Provider store={store}>
-        <NavigationContainer>
-          <BottomTabNavigation />
-        </NavigationContainer>
+        <PersistGate persistor={persistor}>
+          <NavigationContainer>
+            <BottomTabNavigation />
+          </NavigationContainer>
+        </PersistGate>
       </Provider>
     </SafeAreaProvider>
   )
-}  
+}   
+*/
 
+
+
+///////////////////////
+
+
+
+
+export default function App() {
+  return (
+    <RecoilRoot>
+      <SafeAreaProvider>
+        <RecoilCustomPersist>
+          <NavigationContainer>
+              <RootNavigation />
+          </NavigationContainer>
+        </RecoilCustomPersist>
+      </SafeAreaProvider>
+    </RecoilRoot>
+    
+  )
+} 
 
 

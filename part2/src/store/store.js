@@ -34,10 +34,24 @@ export default store;
 
 
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import hardSet from "redux-persist/es/stateReconciler/hardSet";
+import persistReducer from 'redux-persist/es/persistReducer';
+import persistStore from "redux-persist/es/persistStore";
+
+
 const rootReducer = combineReducers({
     numbers: lottoNumberReducers
 })
 
-const store = createStore(rootReducer, applyMiddleware(logger));
+const persistedReducer = persistReducer({ // persistReducer({퍼시스트 설정}, 리듀서): 해당 리듀서에 대한 '퍼시스트 리듀서'를 생성함.
+    key: 'root',
+    storage: AsyncStorage,
+    stateReconciler: hardSet
+}, rootReducer)
 
-export default store;
+
+export const store = createStore(persistedReducer, applyMiddleware(logger)); // createStore(퍼시스트 리듀서): 해당 퍼시스트 리듀서에 대한 '퍼시스트 스토어'를 생성함.
+
+export const persistor = persistStore(store); // persistStore(퍼시스트 스토어): 해당 퍼시스트 스토어에 대한 '퍼시스터'를 생성함.
+

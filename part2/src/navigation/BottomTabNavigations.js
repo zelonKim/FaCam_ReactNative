@@ -1,10 +1,10 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from 'react';
-import { ImageListScreen } from "../screen/ImageListScreen";
-import { FavoriteImageListScreen } from "../screen/FavoriteImageListScreen";
+import { ImageListScreen } from "../screens/ImageListScreen";
+import { FavoriteImageListScreen } from "../screens/FavoriteImageListScreen";
 import { TabIcon } from "../components/TabIcon";
-import { HomeScreen } from "../screen/HomeScreen";
-import { HistoryListScreen } from "../screen/HistoryListScreen";
+import { HomeScreen } from "../screens/HomeScreen";
+import { HistoryListScreen } from "../screens/HistoryListScreen";
 
 /* 
 const Tabs = createBottomTabNavigator();
