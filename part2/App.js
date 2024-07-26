@@ -23,6 +23,8 @@ import { Provider } from 'react-redux';
 import { RootNavigation } from './src/navigation/RootNavigation';
 import { RecoilRoot } from 'recoil';
 import { RecoilCustomPersist } from './src/components/RecoilCustomPersist';
+import { NewsTabNavigation } from './src/navigation/NewsTabNavigation';
+import store from './src/store/store';
 
 
 /* 
@@ -412,7 +414,7 @@ export default function App() {
 
 
 
-
+/* 
 export default function App() {
   return (
     <RecoilRoot>
@@ -426,6 +428,22 @@ export default function App() {
     </RecoilRoot>
     
   )
-} 
+}  
+*/
 
 
+////////////////////////
+
+
+
+export default function App() {
+  return (
+    <Provider store={store}>
+      <SafeAreaProvider>
+        <NavigationContainer>
+          <RootNavigation />
+        </NavigationContainer>
+      </SafeAreaProvider>
+    </Provider>
+  )
+}
