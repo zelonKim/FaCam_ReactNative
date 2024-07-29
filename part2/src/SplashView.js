@@ -1,19 +1,34 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 import { Typography } from './components/Typography';
 import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth'
 import database from 'react-native-firebase/database'
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { stateUserInfo } from './states/stateUserInfo';
+import { useGetDiaryList } from './hooks/useGetDiaryList';
+import { PasswordInputBox } from './components/PasswordInputBox';
 
 
 export const SplashView = (props)=>{
+    const [loading, setLoading] = useState(false);
+
     const [showLoginButton, setShowLoginButton] = useState(false);
 
-    const setUserInfo = useSetRecoilState(stateUserInfo);
+    const [showPasswordInput, setShowPasswordInput] = useState(false);
+
+    const [inputPassword, setInputPassword] = useState('');
+
+    const [passwordError, setPasswordError] = useState(null);
+
+    const [userInfo, setUserInfo] = useRecoilState(stateUserInfo);
+
+    const runGetDiaryList = useGetDiaryList();
+
 
     const signinUserIdentify = useCallback(async (idToken) => {
+        setLoading(true);
+
         const googleCredential = auth.GoogleAuthProvider.credential(idToken);
         const result = await auth().signInWithCredential(googleCredential);
         console.log(result) 
@@ -33,15 +48,28 @@ export const SplashView = (props)=>{
                 createdAt: now,
                 lastLoginAt: now
             })
-        } else {
-            await database().ref(userDBRefKey).update({ // database().ref(사용자 데이터베이스 주소).update({키:밸류}): 사용자 데이터베이스의 키에 대한 밸류를 업데이트함.
-                lastLoginAt: now,
-            })
-        }
-        const userInfo = await database().ref(userDBRefKey).once('value').then((snapshot) => snapshot.val())
-        console.log(userInfo);
+        } 
+        // else {
+        //     await database().ref(userDBRefKey).update({ // database().ref(사용자 데이터베이스 주소).update({키:밸류}): 사용자 데이터베이스의 키에 대한 밸류를 업데이트함.
+        //         lastLoginAt: now,
+        //     })
+        // }
 
+        const userInfo = await database().ref(userDBRefKey).once('value').then((snapshot) => snapshot.val())
+        
         setUserInfo(userInfo);
+
+        await runGetDiaryList(userInfo);
+
+        if(userInfo.password !== '') {
+            setShowPasswordInput(true);
+            setLoading(false);
+            return;
+        }
+        
+        await database().ref(userDBRefKey).update({
+            lastLoginAt: now,
+        })
 
         props.onFinishLoad();
     }, [])
@@ -52,6 +80,7 @@ export const SplashView = (props)=>{
         const {idToken} = await GoogleSignin.signIn();
         signinUserIdentify(idToken);
     },[])
+
 
 
     const userSilentLogin = useCallback(async() => {
@@ -71,6 +100,35 @@ export const SplashView = (props)=>{
     return (
         <View style={{flex:1, alignItems:'center', justifyContent:'center'}}>
           {showLoginButton && <GoogleSigninButton onPress={onPressGoogleLogin} /> }
+          {showLoginButton && (
+            <PasswordInputBox 
+                errorMessage={passwordError}
+                value={inputPassword}
+                onChangeText={async(text) => {
+                    setInputPassword(text);
+
+                    if(text.length === 4) {
+                        if(userInfo.password === text) {
+                            const now = new Date().toISOString();
+
+                            const userDB = `/users/${userInfo.uid}`
+
+                            await database().ref(userDB).update({
+                                lastLoginAt: now,
+                            })
+                            props.onFinishLoad();
+                        } else {
+                            setInputPassword('');
+                            setPasswordError('비밀번호가 일치하지 않습니다.')
+                        }
+                    }
+                }}
+            />
+        )}
+
+        {loading && (
+            <ActivityIndicator />
+        )}
         </View>
     )
 }

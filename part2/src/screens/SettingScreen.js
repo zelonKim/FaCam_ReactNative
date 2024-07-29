@@ -8,6 +8,7 @@ import { stateUserInfo } from "../states/stateUserInfo";
 import { RemoteImage } from "../components/RemoteImage";
 import { Typography } from "../components/Typography";
 import { useImagePickAndUpload } from "../hooks/useImagePickAndUpload";
+import { Button } from "../components/Button";
 
 
 export const SettingScreen = () => {
@@ -39,7 +40,21 @@ export const SettingScreen = () => {
         }
     },[userInfo, runImagePickAndUpload])
 
-    
+
+    const onPressAddPassword = useCallback(() => {
+        navigation.navigate('AddPassword')
+    }, [])
+
+    const onPressClearPassword = useCallback(async() => {
+        const userDB = `/users/${userInfo.uid}`
+        await database().ref(userDB).update({
+            password: '',
+        })
+        setUserInfo({
+            password: ''
+        })
+    }, [])
+
     return(
         <View style={{flex:1, paddingTop:32}}>
             <Header>
@@ -61,7 +76,41 @@ export const SettingScreen = () => {
                     </Button>
                     <Spacer space={20} />
                     <Typography fontSize={20}>{userInfo.name}</Typography>
+
                 </View>
+
+                <Spacer space={20} />
+                <Divider />
+                <Spacer space={20} />
+
+                <Button onPress={onPressAddPassword}>
+                    <View style={{
+                        flexDirection: 'row', 
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        paddingVertical: 12,
+                        paddingHorizontal: 24
+                    }}> 
+                        <Typography fontSize={16}>{userInfo.password !== '' ? '비밀번호 수정' : '비밀번호 추가' }</Typography>
+                        <Icon name='chevron-forward-outlint' size={16}></Icon>
+                    </View>
+                </Button>
+
+
+                {userInfo.password !== '' && ( 
+                <Button onPress={onPressClearPassword}>
+                    <View style={{
+                        flexDirection: 'row', 
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        paddingVertical: 12,
+                        paddingHorizontal: 24
+                    }}>
+                        <Typography fontSize={16}>비밀번호 초기화</Typography>
+                    </View>
+                </Button>
+                )}
+
             </View>
         </View>
     )

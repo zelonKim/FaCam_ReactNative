@@ -458,7 +458,7 @@ export default function App() {
 
 
 
-
+/*
 import { GoogleSigninButton, GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin'
 import { useCallback, useEffect, useState } from 'react';
 import firebaseAuth from '@react-native-firebase/auth'
@@ -540,13 +540,13 @@ export default function App() {
     </View>
   )
 }
-
+*/
 
 
 //////////////////////
 
 
-
+/*
 import { View } from 'react-native';
 import { useCallback, useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
@@ -607,7 +607,7 @@ export default function App() {
     </View>
   )
 } 
-
+*/
 
 //////////////////////
 
