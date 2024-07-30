@@ -42,9 +42,9 @@ export const TabIcon:React.FC<{
             <View>
                 <Badge>
                     <Icon 
-                        iconName={props.iconName} 
-                        iconSize={20} 
-                        iconColor={props.iconColor} />
+                        name={props.iconName} 
+                        size={20} 
+                        color={props.iconColor} />
                 </Badge>
             </View>
         )
@@ -53,9 +53,9 @@ export const TabIcon:React.FC<{
     return(
         <View>
             <Icon 
-                iconName={props.iconName} 
-                iconSize={20} 
-                iconColor={props.iconColor} />
+                name={props.iconName} 
+                size={20} 
+                color={props.iconColor} />
         </View>
     )
 }

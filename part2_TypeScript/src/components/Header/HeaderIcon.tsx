@@ -4,11 +4,11 @@ import { Icon, IconName } from '../Icons'
 
 export const HeaderIcon: React.FC<{
     onPress: () => void,
-    iconName: IconName    
+    name: IconName    
 }> = (props) => {
     return (
         <Button onPress={props.onPress}>
-            <Icon iconName={props.iconName} iconSize={28} iconColor='black' />
+            <Icon name={props.name} size={28} color='black' />
         </Button>
     )
 }
