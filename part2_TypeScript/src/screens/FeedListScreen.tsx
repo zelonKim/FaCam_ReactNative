@@ -4,11 +4,15 @@ import { Header } from "../components/Header/Header";
 import { Spacer } from "../components/Spacer";
 import { FeedListItem } from "../components/FeedListItem";
 import { useRootNavigation, useRootRoute } from "../navigations/RootStackNavigation";
+import { TypeFeedListDispatch, favoriteFeed } from "../actions/feed";
+import { useDispatch } from "react-redux";
 
 export const FeedListScreen: React.FC = () => {
     const route = useRootRoute<'FeedList'>();
 
     const navigation = useRootNavigation<'FeedList'>();
+
+    const dispatch = useDispatch<TypeFeedListDispatch>();
 
     return (
         <View style={{flex: 1}}>
@@ -29,8 +33,12 @@ export const FeedListScreen: React.FC = () => {
                             isLiked={false}
                             likeCount={item.likeHistory.length}
                             writer={item.writer.name}
-                            onPressFeed={()=> {
+                            onPressFeed={() => {
                                 console.log('온프레스 피드')
+                            }}
+                            onPressFavorite={() => {
+                                console.log('온프레스 페이보릿')
+                                dispatch(favoriteFeed(item));
                             }}
                         />
                     )

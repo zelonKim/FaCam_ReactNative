@@ -4,9 +4,11 @@ import { Header } from "../components/Header/Header";
 import { useTotalFeedList } from "../selectors/feed";
 import { FeedListItem } from "../components/FeedListItem";
 import { useDispatch } from "react-redux";
-import { TypeFeedListDispatch, getFeedList } from "../actions/feed";
+import { TypeFeedListDispatch, favoriteFeed, getFeedList } from "../actions/feed";
 import { Spacer } from "../components/Spacer";
 import { useRootNavigation } from "../navigations/RootStackNavigation";
+import crashlytics from '@react-native-firebase/crashlytics'
+import '@react-native-firebase/analytics'
 
 export const HomeScreen: React.FC = () => {
     const rootNavigation = useRootNavigation();
@@ -21,6 +23,7 @@ export const HomeScreen: React.FC = () => {
     }, [])
 
     useEffect(()=>{
+        crashlytics().crash();
         dispatch(getFeedList());
     }, [])
     
@@ -43,6 +46,10 @@ export const HomeScreen: React.FC = () => {
                             writer={item.writer.name}
                             onPressFeed={()=> {
                                 console.log('온프레스 피드')
+                            }}
+                            onPressFavorite={()=>{
+                                console.log('온프레스 페이보릿')
+                                dispatch(favoriteFeed(item));
                             }}
                         />
                     )

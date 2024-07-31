@@ -1,5 +1,5 @@
-import { NativeStackNavigationProp, createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
+import { NativeStackNavigationProp, createNativeStackNavigator } from "@react-navigation/native-stack";
 import { BottomTabNavigation } from "./BottomTabNavigation";
 import { AddFeedScreen } from "../screens/AddFeedScreen";
 import { FeedListScreen } from "../screens/FeedListScreen";
