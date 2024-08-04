@@ -5,7 +5,7 @@
     <key>CFBundleDevelopmentRegion</key>
     <string>$(DEVELOPMENT_LANGUAGE)</string>
     <key>CFBundleDisplayName</key>
-    <string>part2_TypeScript</string>
+    <string>anstagram-dev</string>
     <key>CFBundleExecutable</key>
     <string>$(EXECUTABLE_NAME)</string>
     <key>CFBundleIdentifier</key>
@@ -25,7 +25,7 @@
       <dict>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>com.my.anstagram</string>
+          <string>com.anstagram.dev</string>
         </array>
       </dict>
       <dict>
@@ -37,7 +37,7 @@
       <dict>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>exp+part2typescript</string>
+          <string>exp+anstagram</string>
         </array>
       </dict>
     </array>

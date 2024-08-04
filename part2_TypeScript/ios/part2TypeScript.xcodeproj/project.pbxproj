@@ -323,8 +323,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.my.anstagram";
-				PRODUCT_NAME = "part2TypeScript";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.anstagram.dev";
+				PRODUCT_NAME = dev;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -348,8 +348,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.my.anstagram";
-				PRODUCT_NAME = "part2TypeScript";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.anstagram.dev";
+				PRODUCT_NAME = dev;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				TARGETED_DEVICE_FAMILY = "1,2";

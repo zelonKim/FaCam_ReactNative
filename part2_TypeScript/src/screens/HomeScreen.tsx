@@ -51,6 +51,7 @@ export const HomeScreen: React.FC = () => {
                                 console.log('온프레스 페이보릿')
                                 dispatch(favoriteFeed(item));
                             }}
+                            createdAt={item.createdAt}
                         />
                     )
                 }}

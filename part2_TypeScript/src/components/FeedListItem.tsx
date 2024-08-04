@@ -6,6 +6,7 @@ import { Icon } from "./Icons"
 import { Typography } from "./Typography"
 import { Spacer } from "./Spacer"
 import { DoubleTapButton } from "./DoubleTapButton"
+import { getMillisToDateString } from "../utils/DateUtils"
 
 
 export const FeedListItem: React.FC<{
@@ -14,6 +15,7 @@ export const FeedListItem: React.FC<{
     likeCount: number,
     writer: string,
     comment: string,
+    createdAt: number;
     onPressFeed: () => void,
     onPressFavorite: () => void,
 }> = (props) => {
@@ -60,20 +62,24 @@ export const FeedListItem: React.FC<{
                         justifyContent:'center'
                     }}>
                         <Animated.View style={{transform:[{scale: scaleValue}], opacity: alphaValue }}>
-                            <Icon name='heart' size={64} color='red' />
+                            <Icon name='heart' size={64} color='white' />
                         </Animated.View>
                     </View>
                 </View>
             </DoubleTapButton>
-
-            <Button onPress={props.onPressFavorite}>
-                <View style={{paddingHorizontal: 12, paddingVertical: 6}}>
-                    <Icon 
-                        name={props.isLiked ? 'heart' : 'heart-outline'}
-                        size={20} 
-                        color={props.isLiked ? 'red' : 'black'} />
-                </View>
-            </Button>
+            <View style={{ flexDirection:'row', alignItems:'center', justifyContent:'space-between'}}>
+                <Button onPress={props.onPressFavorite}>
+                    <View style={{paddingHorizontal: 12, paddingVertical: 6}}>
+                        <Icon 
+                            name={props.isLiked ? 'heart' : 'heart-outline'}
+                            size={20} 
+                            color={props.isLiked ? 'red' : 'black'} />
+                    </View>
+                </Button>
+                <Typography fontSize={16} color={'gray'}>
+                    {getMillisToDateString(props.createdAt)}
+                </Typography>
+            </View>
 
                 <View style={{paddingHorizontal: 12}}>
                     <Typography fontSize={16}> {`좋아요 ${props.likeCount}`} </Typography>
