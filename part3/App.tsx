@@ -362,8 +362,7 @@ export default App;
 
 
 
-
-
+/* 
 import React from 'react';
 import {SafeAreaView} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
@@ -382,3 +381,54 @@ function App(): React.JSX.Element {
 }
 
 export default App; 
+ */
+
+
+
+
+
+/////////////////////////////
+
+
+
+
+
+import { NavigationContainer } from '@react-navigation/native';
+import React from 'react';
+import type {PropsWithChildren} from 'react';
+import {
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  useColorScheme,
+  View,
+} from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { RootNavigation } from './src/navigation/RootNavigation';
+
+
+
+function App(): React.JSX.Element {
+  const isDarkMode = useColorScheme() === 'dark';
+
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+  }
+
+  return (
+      <SafeAreaProvider>
+        <StatusBar
+          barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+          backgroundColor={backgroundStyle.backgroundColor}
+        />
+        <NavigationContainer>
+          <RootNavigation />
+        </NavigationContainer>
+      </SafeAreaProvider>
+  );
+}
+
+export default App;

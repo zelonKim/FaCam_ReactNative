@@ -1,4 +1,5 @@
 PODS:
+  - Alamofire (5.9.1)
   - boost (1.83.0)
   - DoubleConversion (1.1.6)
   - FBLazyVector (0.74.4)
@@ -7,6 +8,9 @@ PODS:
   - Firebase/Database (10.29.0):
     - Firebase/CoreOnly
     - FirebaseDatabase (~> 10.29.0)
+  - Firebase/DynamicLinks (10.29.0):
+    - Firebase/CoreOnly
+    - FirebaseDynamicLinks (~> 10.29.0)
   - FirebaseAppCheckInterop (10.29.0)
   - FirebaseCore (10.29.0):
     - FirebaseCoreInternal (~> 10.0)
@@ -20,24 +24,51 @@ PODS:
     - FirebaseSharedSwift (~> 10.0)
     - GoogleUtilities/UserDefaults (~> 7.13)
     - leveldb-library (~> 1.22)
+  - FirebaseDynamicLinks (10.29.0):
+    - FirebaseCore (~> 10.0)
   - FirebaseSharedSwift (10.29.0)
   - fmt (9.1.0)
   - glog (0.3.5)
+  - GoogleUtilities/AppDelegateSwizzler (7.13.3):
+    - GoogleUtilities/Environment
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Network
+    - GoogleUtilities/Privacy
   - GoogleUtilities/Environment (7.13.3):
     - GoogleUtilities/Privacy
     - PromisesObjC (< 3.0, >= 1.2)
   - GoogleUtilities/Logger (7.13.3):
     - GoogleUtilities/Environment
     - GoogleUtilities/Privacy
+  - GoogleUtilities/Network (7.13.3):
+    - GoogleUtilities/Logger
+    - "GoogleUtilities/NSData+zlib"
+    - GoogleUtilities/Privacy
+    - GoogleUtilities/Reachability
   - "GoogleUtilities/NSData+zlib (7.13.3)":
     - GoogleUtilities/Privacy
   - GoogleUtilities/Privacy (7.13.3)
+  - GoogleUtilities/Reachability (7.13.3):
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Privacy
   - GoogleUtilities/UserDefaults (7.13.3):
     - GoogleUtilities/Logger
     - GoogleUtilities/Privacy
   - hermes-engine (0.74.4):
     - hermes-engine/Pre-built (= 0.74.4)
   - hermes-engine/Pre-built (0.74.4)
+  - KakaoSDKCommon (2.11.1):
+    - KakaoSDKCommon/Common (= 2.11.1)
+    - KakaoSDKCommon/Network (= 2.11.1)
+  - KakaoSDKCommon/Common (2.11.1)
+  - KakaoSDKCommon/Network (2.11.1):
+    - Alamofire (~> 5.1)
+    - KakaoSDKCommon/Common (= 2.11.1)
+  - KakaoSDKShare (2.11.1):
+    - KakaoSDKCommon (= 2.11.1)
+    - KakaoSDKTemplate (= 2.11.1)
+  - KakaoSDKTemplate (2.11.1):
+    - KakaoSDKCommon/Common (= 2.11.1)
   - leveldb-library (1.22.5)
   - PromisesObjC (2.4.0)
   - RCT-Folly (2024.01.01.00):
@@ -989,9 +1020,16 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
+  - react-native-kakao-share-link (1.0.10):
+    - KakaoSDKCommon (= 2.11.1)
+    - KakaoSDKShare (= 2.11.1)
+    - KakaoSDKTemplate (= 2.11.1)
+    - React-Core
   - react-native-maps (1.17.3):
     - React-Core
   - react-native-safe-area-context (4.10.8):
+    - React-Core
+  - react-native-sqlite-storage (6.0.1):
     - React-Core
   - React-nativeconfig (0.74.4)
   - React-NativeModulesApple (0.74.4):
@@ -1229,6 +1267,11 @@ PODS:
     - Firebase/Database (= 10.29.0)
     - React-Core
     - RNFBApp
+  - RNFBDynamicLinks (20.3.0):
+    - Firebase/DynamicLinks (= 10.29.0)
+    - GoogleUtilities/AppDelegateSwizzler
+    - React-Core
+    - RNFBApp
   - RNReanimated (3.14.0):
     - DoubleConversion
     - glog
@@ -1332,8 +1375,10 @@ DEPENDENCIES:
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - React-Mapbuffer (from `../node_modules/react-native/ReactCommon`)
   - "react-native-geolocation (from `../node_modules/@react-native-community/geolocation`)"
+  - react-native-kakao-share-link (from `../node_modules/react-native-kakao-share-link`)
   - react-native-maps (from `../node_modules/react-native-maps`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
+  - react-native-sqlite-storage (from `../node_modules/react-native-sqlite-storage`)
   - React-nativeconfig (from `../node_modules/react-native/ReactCommon`)
   - React-NativeModulesApple (from `../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
@@ -1359,6 +1404,7 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBDatabase (from `../node_modules/@react-native-firebase/database`)"
+  - "RNFBDynamicLinks (from `../node_modules/@react-native-firebase/dynamic-links`)"
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSensors (from `../node_modules/react-native-sensors`)
@@ -1367,13 +1413,18 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - Alamofire
     - Firebase
     - FirebaseAppCheckInterop
     - FirebaseCore
     - FirebaseCoreInternal
     - FirebaseDatabase
+    - FirebaseDynamicLinks
     - FirebaseSharedSwift
     - GoogleUtilities
+    - KakaoSDKCommon
+    - KakaoSDKShare
+    - KakaoSDKTemplate
     - leveldb-library
     - PromisesObjC
     - SocketRocket
@@ -1442,10 +1493,14 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   react-native-geolocation:
     :path: "../node_modules/@react-native-community/geolocation"
+  react-native-kakao-share-link:
+    :path: "../node_modules/react-native-kakao-share-link"
   react-native-maps:
     :path: "../node_modules/react-native-maps"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
+  react-native-sqlite-storage:
+    :path: "../node_modules/react-native-sqlite-storage"
   React-nativeconfig:
     :path: "../node_modules/react-native/ReactCommon"
   React-NativeModulesApple:
@@ -1496,6 +1551,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/app"
   RNFBDatabase:
     :path: "../node_modules/@react-native-firebase/database"
+  RNFBDynamicLinks:
+    :path: "../node_modules/@react-native-firebase/dynamic-links"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
@@ -1508,6 +1565,7 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
+  Alamofire: f36a35757af4587d8e4f4bfa223ad10be2422b8c
   boost: d3f49c53809116a5d38da093a8aa78bf551aed09
   DoubleConversion: 76ab83afb40bddeeee456813d9c04f67f78771b5
   FBLazyVector: 4c674c2d53de79c145d6a723910543d7b57ed74c
@@ -1516,11 +1574,15 @@ SPEC CHECKSUMS:
   FirebaseCore: 30e9c1cbe3d38f5f5e75f48bfcea87d7c358ec16
   FirebaseCoreInternal: df84dd300b561c27d5571684f389bf60b0a5c934
   FirebaseDatabase: 1fecbdd38d325c78bd430c06b8e71794ce415dc7
+  FirebaseDynamicLinks: 83c278fcae48ac2cf8c3fb10f64f3d469dadcf9b
   FirebaseSharedSwift: 20530f495084b8d840f78a100d8c5ee613375f6e
   fmt: 4c2741a687cc09f0634a2e2c72a838b99f1ff120
   glog: fdfdfe5479092de0c4bdbebedd9056951f092c4f
   GoogleUtilities: ea963c370a38a8069cc5f7ba4ca849a60b6d7d15
   hermes-engine: 6312f669c895e05f0f6029554061593711770ea6
+  KakaoSDKCommon: 555e1bb46595b842ded01cf7888cc17bbae4e113
+  KakaoSDKShare: 9752730ce3339536f9d7812eb70eccb87643e9a6
+  KakaoSDKTemplate: f8ee0b33f649e436c1aaf2a3a6bd6aa3dcae2451
   leveldb-library: e8eadf9008a61f9e1dde3978c086d2b6d9b9dc28
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   RCT-Folly: 02617c592a293bd6d418e0a88ff4ee1f88329b47
@@ -1548,8 +1610,10 @@ SPEC CHECKSUMS:
   React-logger: fbfb50e2a2b1b46ee087f0a52739fadecc5e81a4
   React-Mapbuffer: a5eb0e1e19b423dcd52dedf46a63efe76c59883c
   react-native-geolocation: 3d05370e569784e95cd8a4f75713c9ab42b0f038
+  react-native-kakao-share-link: f9be590aec95928451f6ce1a622ef9c91a48d79b
   react-native-maps: 5d563f21238f8e8fea24ae6ff2772bfde17f6f34
   react-native-safe-area-context: b7daa1a8df36095a032dff095a1ea8963cb48371
+  react-native-sqlite-storage: f6d515e1c446d1e6d026aa5352908a25d4de3261
   React-nativeconfig: 88b7dc2d4e0ddd3255793dbdda3ee2507b409a91
   React-NativeModulesApple: ee1cbcbdbbcb28d2a346e7415422778f32a4a3d4
   React-perflogger: 9745f800ab4d12ec4325bde7bd090eafb87c5570
@@ -1575,6 +1639,7 @@ SPEC CHECKSUMS:
   ReactCommon: fb50ec9172c266fe4c930976f5f20d1caa06c63d
   RNFBApp: 793adb33298db7e67dc365dc1ec0dc8a55a7a044
   RNFBDatabase: 2f80e39b4042387410f351a4640f975d83ee3fa7
+  RNFBDynamicLinks: 6e5d52576c079e65040110c8a9b895c6e1f02edc
   RNReanimated: f6b214732ff303cb815ac81b26bbfd2070b69f43
   RNScreens: 7868e19bb8b7643a990fd7a7e037796c4c9b4ff9
   RNSensors: 117ba71c7eeeea0407ea0c0bb79e3495d602049b

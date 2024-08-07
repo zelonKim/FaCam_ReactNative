@@ -38,7 +38,7 @@ export const MultiLineInput:React.FC<{
     onChangeText: (text:string) => void,
     placeholder: string,
     onSubmitEditing: () => void,
-    fontSize: number,
+    fontSize?: number,
     height?: number
 }> = (props)=>{
     const [focused, setFocused] = useState(false);

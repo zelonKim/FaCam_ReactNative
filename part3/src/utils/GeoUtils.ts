@@ -1,4 +1,4 @@
-import { KAKAO_API_KEY } from "../../api_key";
+import { KAKAO_REST_API_KEY } from "../../api_key";
 
 
 export const getAddressFromCoords = (
@@ -9,7 +9,7 @@ export const getAddressFromCoords = (
         {
             method: 'GET',
             headers: {
-                Authorization: `KakaoAK ${KAKAO_API_KEY}`
+                Authorization: `KakaoAK ${KAKAO_REST_API_KEY}`
             }
         }
     ).then(result => result.json())
@@ -33,7 +33,7 @@ export const getCoordsFromAddress = (address:string):Promise<{latitude:number, l
         {
             method: 'GET',
             headers: {
-                Authorization: `KakaoAK ${KAKAO_API_KEY}`
+                Authorization: `KakaoAK ${KAKAO_REST_API_KEY}`
             }
         }
     ).then(result => result.json())
@@ -62,7 +62,7 @@ export const getCoordsFromKeyword = (keyword:string):Promise<{latitude:number, l
         {
             method: 'GET',
             headers: {
-                Authorization: `KakaoAK ${KAKAO_API_KEY}`
+                Authorization: `KakaoAK ${KAKAO_REST_API_KEY}`
             }
         }
     ).then(result => result.json())

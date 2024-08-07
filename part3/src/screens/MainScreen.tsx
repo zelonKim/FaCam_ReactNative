@@ -1,3 +1,4 @@
+/* 
 import React, { useCallback, useEffect, useState } from "react";
 import { Pressable, Text, View } from "react-native";
 import { Header } from "../components/Header/Header";
@@ -7,6 +8,8 @@ import { getAddressFromCoords, getCoordsFromAddress, getCoordsFromKeyword } from
 import { SingleLineInput } from "../components/SingleLineInput";
 import { useRootNavigation } from "../navigation/RootNavigation";
 import { getRestaurantList } from "../utils/RealTimeDataBaseUtils";
+
+
 
 export const MainScreen: React.FC = () => {
     const navigation = useRootNavigation<'Main'>();
@@ -147,6 +150,14 @@ export const MainScreen: React.FC = () => {
                                     longitude: markerList.longitude
                                 }}
                                 pinColor={'blue'} // pinColor={마커 색깔}
+                                onCalloutPress={() => {
+                                    navigation.push('Detail', {
+                                        latitude: markerList.latitude,
+                                        longitude: markerList.longitude,
+                                        address: markerList.address,
+                                        title: markerList.title
+                                    })
+                                }}
                             />
                         )
                     })
@@ -193,6 +204,115 @@ export const MainScreen: React.FC = () => {
                     </Pressable>    
                 </View>
             )}
+        </View>
+    )
+} 
+*/
+
+
+
+///////////////////////////////////
+
+
+
+import React, { useEffect, useState } from 'react';
+import { FlatList, View } from 'react-native';
+import { Header } from '../components/Header/Header';
+import { AccountBookHistory } from '../data/AccountBookHistory';
+import { AccountHistoryListItemView } from '../components/AccountHistoryListItemView';
+import { useRootNavigation } from '../navigation/RootNavigation';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Button } from '../components/Button';
+import { Icon } from '../components/Icons';
+import SQLite from 'react-native-sqlite-storage';
+
+
+const now = new Date().getTime();
+
+export const MainScreen: React.FC = () => {
+    const navigation = useRootNavigation();
+    const safeAreaInset = useSafeAreaInsets();
+
+
+    useEffect(()=>{
+        SQLite.openDatabase(
+            {
+                name: 'account_history',
+                createFromLocation: '~www/account_history.db',
+                location: 'default'
+            },
+            () => {console.log('오픈 데이터베이스 성공')},
+            () => {console.log('오픈 데이터베이스 실패')}
+        )
+    },[])
+
+
+    const [list] = useState<AccountBookHistory[]>([
+        {
+        id: 0,
+        type: '사용',
+        price: 10000,
+        comment: 'test1',
+        date: now,
+        createdAt: now,
+        updatedAt: now,
+        photoUrl: null
+        },
+        {
+        id: 1,
+        type: '수입',
+        price: 20000,
+        comment: 'test2',
+        date: now,
+        createdAt: now,
+        updatedAt: now,
+        photoUrl: 'https://docs.expo.dev/static/images/tutorial/background-image.png'
+        }
+    ]);
+
+    return (
+        <View style={{flex:1}}>
+            <Header>
+                <Header.Title title='Main SCREEN' />
+                <Header.Icon name="close" onPress={()=>{}} />
+            </Header>
+
+            <FlatList 
+                data={list}
+                renderItem={({item})=>{
+                    return (
+                        <AccountHistoryListItemView
+                            item={item}
+                            onPressItem={(clicked) => {
+                                navigation.push('Detail', {item: clicked})
+                            }}
+                        />
+                    )
+                }}
+            />
+            <View 
+                style={{
+                    position:'absolute', 
+                    right:12, 
+                    bottom:12 + safeAreaInset.bottom, 
+                }}>
+                <Button 
+                    onPress={()=>{
+                        navigation.push('Add');
+                }}>
+                    <View 
+                        style={{
+                            width:50,
+                            height:50,
+                            borderRadius:25,
+                            backgroundColor:'red',
+                            alignItems:'center',
+                            justifyContent:'center'
+                        }}>
+                            <Icon name="add" size={30} color="white" />
+                    </View>
+                </Button>
+            </View>
         </View>
     )
 }

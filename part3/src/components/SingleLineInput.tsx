@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput } from 'react-native';
+import { View, TextInput, TextInputProps } from 'react-native';
 
 
 // export const SingleLineInput = (props)=>{
@@ -38,7 +38,8 @@ export const SingleLineInput:React.FC<{
     value: string,
     onChangeText: (text: string) => void,
     placeholder: string,
-    onSubmitEditing?: () => void 
+    onSubmitEditing?: () => void ,
+    keyboardType?: TextInputProps['keyboardType']
     fontSize?: number
 }> = (props)=>{
     const [focused, setFocused] = useState(false);
@@ -57,10 +58,11 @@ export const SingleLineInput:React.FC<{
                 autoCorrect={false}
                 autoCapitalize={'none'}
                 value={props.value}
+                keyboardType={props.keyboardType}
                 onChangeText={props.onChangeText}
                 placeholder={props.placeholder}
                 onSubmitEditing={props.onSubmitEditing}
-                style={{fontSize:props.fontSize ?? 20}}
+                style={{fontSize: props.fontSize ?? 20, paddingVertical: 0}}
                 onFocus={()=> setFocused(true)} 
                 onBlur={()=> setFocused(false)}
             />
