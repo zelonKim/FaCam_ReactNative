@@ -999,6 +999,8 @@ PODS:
   - React-Mapbuffer (0.74.4):
     - glog
     - React-debug
+  - react-native-cameraroll (5.2.0):
+    - React-Core
   - react-native-geolocation (3.3.0):
     - DoubleConversion
     - glog
@@ -1317,6 +1319,8 @@ PODS:
     - Yoga
   - RNSensors (7.3.6):
     - React-Core
+  - RNSVG (13.6.0):
+    - React-Core
   - RNVectorIcons (10.1.0):
     - DoubleConversion
     - glog
@@ -1339,6 +1343,12 @@ PODS:
     - ReactCommon/turbomodule/core
     - Yoga
   - SocketRocket (0.7.0)
+  - VisionCamera (4.5.1):
+    - VisionCamera/Core (= 4.5.1)
+    - VisionCamera/React (= 4.5.1)
+  - VisionCamera/Core (4.5.1)
+  - VisionCamera/React (4.5.1):
+    - React-Core
   - Yoga (0.0.0)
 
 DEPENDENCIES:
@@ -1374,6 +1384,7 @@ DEPENDENCIES:
   - React-jsitracing (from `../node_modules/react-native/ReactCommon/hermes/executor/`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - React-Mapbuffer (from `../node_modules/react-native/ReactCommon`)
+  - "react-native-cameraroll (from `../node_modules/@react-native-camera-roll/camera-roll`)"
   - "react-native-geolocation (from `../node_modules/@react-native-community/geolocation`)"
   - react-native-kakao-share-link (from `../node_modules/react-native-kakao-share-link`)
   - react-native-maps (from `../node_modules/react-native-maps`)
@@ -1408,7 +1419,9 @@ DEPENDENCIES:
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSensors (from `../node_modules/react-native-sensors`)
+  - RNSVG (from `../node_modules/react-native-svg`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
+  - VisionCamera (from `../node_modules/react-native-vision-camera`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -1491,6 +1504,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/logger"
   React-Mapbuffer:
     :path: "../node_modules/react-native/ReactCommon"
+  react-native-cameraroll:
+    :path: "../node_modules/@react-native-camera-roll/camera-roll"
   react-native-geolocation:
     :path: "../node_modules/@react-native-community/geolocation"
   react-native-kakao-share-link:
@@ -1559,8 +1574,12 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-screens"
   RNSensors:
     :path: "../node_modules/react-native-sensors"
+  RNSVG:
+    :path: "../node_modules/react-native-svg"
   RNVectorIcons:
     :path: "../node_modules/react-native-vector-icons"
+  VisionCamera:
+    :path: "../node_modules/react-native-vision-camera"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -1609,6 +1628,7 @@ SPEC CHECKSUMS:
   React-jsitracing: 1df8bacba61c49f30a488660fbc491221374b27b
   React-logger: fbfb50e2a2b1b46ee087f0a52739fadecc5e81a4
   React-Mapbuffer: a5eb0e1e19b423dcd52dedf46a63efe76c59883c
+  react-native-cameraroll: 0ff04cc4e0ff5f19a94ff4313e5c8bc4503cd86d
   react-native-geolocation: 3d05370e569784e95cd8a4f75713c9ab42b0f038
   react-native-kakao-share-link: f9be590aec95928451f6ce1a622ef9c91a48d79b
   react-native-maps: 5d563f21238f8e8fea24ae6ff2772bfde17f6f34
@@ -1643,8 +1663,10 @@ SPEC CHECKSUMS:
   RNReanimated: f6b214732ff303cb815ac81b26bbfd2070b69f43
   RNScreens: 7868e19bb8b7643a990fd7a7e037796c4c9b4ff9
   RNSensors: 117ba71c7eeeea0407ea0c0bb79e3495d602049b
+  RNSVG: 3a79c0c4992213e4f06c08e62730c5e7b9e4dc17
   RNVectorIcons: 7ac7aaa83f8f3d4c7c0f7daea5a431e91a29b0cd
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
+  VisionCamera: 104de00dce2e04dec51bfb6027eff0312fa3174e
   Yoga: bc3a8b14c0cd8d1914baf6aba1106df6457d8f1d
 
 PODFILE CHECKSUM: f7a6bb0cf0332779f9df2cda60e9d159e15b13d2

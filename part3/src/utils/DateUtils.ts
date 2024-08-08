@@ -9,5 +9,5 @@ export const convertToDateString = (time:number):string => {
         return num.toString();
     }
 
-    return `${date.getFullYear()}-${addZeroIfOneCharacter(date.getMonth()+1)}-${addZeroIfOneCharacter(date.getDate())}  /  ${addZeroIfOneCharacter(date.getHours())}:${addZeroIfOneCharacter(date.getMinutes())}`
+    return `${date.getFullYear()}-${addZeroIfOneCharacter(date.getMonth()+1)}-${addZeroIfOneCharacter(date.getDate())} / ${addZeroIfOneCharacter(date.getHours())}:${addZeroIfOneCharacter(date.getMinutes())}`
 }

@@ -22,7 +22,7 @@ export const CalendarSelectScreen: React.FC = () => {
             </Header>
 
             <Calendar 
-                // initialDate={convertToDateString(today.getDate())}
+                initialDate={convertToDateString(today.getDate())}
                 onDayPress={day => {
                     console.log('선택된 날짜: ', day);
                     routes.params.onSelectDay(day.timestamp);

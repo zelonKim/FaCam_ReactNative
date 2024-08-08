@@ -29,7 +29,7 @@ export const AccountHistoryListItemView: React.FC<{
                     />      
                     <View style={{flex:1, marginLeft:12}}>
                         <Typography fontSize={16}>
-                            {props.item.comment}
+                            {props.item.comment} | {props.item.price.toString()}
                         </Typography>
                         <Spacer space={4} />
 

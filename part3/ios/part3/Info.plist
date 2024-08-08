@@ -93,6 +93,11 @@
       <!-- 카카오링크 -->
       <string>kakaolink</string>
   </array>
-  
+  	<key>NSCameraUsageDescription</key>
+	<string>$(PRODUCT_NAME) needs access to your Camera.</string>
+  	<key>NSPhotoLibraryUsageDescription</key>
+	<string>$(PRODUCT_NAME) needs access to your Camera.</string>
+  	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>$(PRODUCT_NAME) needs access to your Camera.</string>
 </dict>
 </plist>

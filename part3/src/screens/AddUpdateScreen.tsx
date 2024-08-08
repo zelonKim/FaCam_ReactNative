@@ -11,13 +11,14 @@ import { Icon } from '../components/Icons';
 import { convertToDateString } from '../utils/DateUtils';
 import { MultiLineInput } from '../components/MultiLineInput';
 import { useAccountBookHistoryItem } from '../hooks/useAccountBookHistoryItem';
+import { RemoteImage } from '../components/RemoteImage';
 
 export const AddUpdateScreen: React.FC = () => {
     const navigation = useRootNavigation<'Add'|'Update'>();
 
     const routes = useRootRoute<'Add'|'Update'>();
 
-    const {insertItem} = useAccountBookHistoryItem();
+    const {insertItem, updateItem} = useAccountBookHistoryItem();
 
     const [item, setItem] = useState<AccountBookHistory>(
         routes.params?.item ?? {
@@ -61,9 +62,17 @@ export const AddUpdateScreen: React.FC = () => {
 
 
     const onPressPhoto = useCallback(()=>{
+        navigation.push('TakePhoto', {
+            savePhotoUrl: url => {
+                setItem(prevState => ({
+                    ...prevState,
+                    photoUrl: url,
+                }))
+            }
+        })
+    },[navigation])
 
-    },[])
-
+    
     const onPressCalendar = useCallback(()=>{
         navigation.push('CalendarSelect', {
             onSelectDay: (date) => {
@@ -77,11 +86,21 @@ export const AddUpdateScreen: React.FC = () => {
 
 
     const onPressSave = useCallback(()=>{
-        if (routes.name === 'Add') {
+        if(routes.name === 'Add') {
             insertItem(item)
                 .then(() => navigation.goBack())
         }
-    },[insertItem, item, routes.name, navigation])
+
+        if(routes.name === 'Update') {
+            updateItem(item)
+                .then((updatedItem) => {
+                        routes.params?.onChangeData(updatedItem); 
+                        navigation.goBack();
+                    })
+        }
+    },[insertItem, updateItem, item, routes.name, navigation, routes.params])
+
+
 
 
     return (
@@ -172,6 +191,14 @@ export const AddUpdateScreen: React.FC = () => {
 
                     <View style={{marginLeft:24}}>
                         <Button onPress={onPressPhoto}>
+                            {item.photoUrl ? ( 
+                                <RemoteImage 
+                                    url={item.photoUrl} 
+                                    width={100} 
+                                    height={100}  
+                                    style={{ borderRadius:12 }} 
+                                />
+                            ) : (
                             <View
                                 style={{
                                     width:100,
@@ -184,6 +211,7 @@ export const AddUpdateScreen: React.FC = () => {
                             >
                                 <Icon name="add" size={24} color="gray" />
                             </View>
+                            )}
                         </Button>
                     </View>
                 </View>

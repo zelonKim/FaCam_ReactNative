@@ -215,8 +215,8 @@ export const MainScreen: React.FC = () => {
 
 
 
-import React, { useEffect, useState } from 'react';
-import { FlatList, View } from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { FlatList, View, useWindowDimensions } from 'react-native';
 import { Header } from '../components/Header/Header';
 import { AccountBookHistory } from '../data/AccountBookHistory';
 import { AccountHistoryListItemView } from '../components/AccountHistoryListItemView';
@@ -225,6 +225,9 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Button } from '../components/Button';
 import { Icon } from '../components/Icons';
 import SQLite from 'react-native-sqlite-storage';
+import { useAccountBookHistoryItem } from '../hooks/useAccountBookHistoryItem';
+import { useFocusEffect } from '@react-navigation/native';
+import { StackedBarChart } from 'react-native-chart-kit';
 
 
 const now = new Date().getTime();
@@ -233,8 +236,10 @@ export const MainScreen: React.FC = () => {
     const navigation = useRootNavigation();
     const safeAreaInset = useSafeAreaInsets();
 
+    const {getList} = useAccountBookHistoryItem();
+    const {width} = useWindowDimensions();
 
-    useEffect(()=>{
+    useEffect(() => {
         SQLite.openDatabase(
             {
                 name: 'account_history',
@@ -247,28 +252,41 @@ export const MainScreen: React.FC = () => {
     },[])
 
 
-    const [list] = useState<AccountBookHistory[]>([
+    const [list, setList] = useState<AccountBookHistory[]>([
         {
-        id: 0,
-        type: '사용',
-        price: 10000,
-        comment: 'test1',
-        date: now,
-        createdAt: now,
-        updatedAt: now,
-        photoUrl: null
+            id: 0,
+            type: '사용',
+            price: 10000,
+            comment: 'test1',
+            date: now,
+            createdAt: now,
+            updatedAt: now,
+            photoUrl: null
         },
         {
-        id: 1,
-        type: '수입',
-        price: 20000,
-        comment: 'test2',
-        date: now,
-        createdAt: now,
-        updatedAt: now,
-        photoUrl: 'https://docs.expo.dev/static/images/tutorial/background-image.png'
+            id: 1,
+            type: '수입',
+            price: 20000,
+            comment: 'test2',
+            date: now,
+            createdAt: now,
+            updatedAt: now,
+            photoUrl: 'https://docs.expo.dev/static/images/tutorial/background-image.png'
         }
     ]);
+
+
+    const fetchList = useCallback(async()=>{
+        const data = await getList();
+        setList(data);
+    },[getList])
+
+
+    useFocusEffect(
+        useCallback(() => {
+            fetchList();
+        },[fetchList])
+    )
 
     return (
         <View style={{flex:1}}>
@@ -279,12 +297,38 @@ export const MainScreen: React.FC = () => {
 
             <FlatList 
                 data={list}
+                // ListHeaderComponent={
+                //     <View>
+                //         <StackedBarChart 
+                //             data={{
+                //                 labels: ['10월', '11월', '12월'],
+                //                 legend: ['사용','수입'],
+                //                 data: [
+                //                     [60, 60],
+                //                     [30, 30],
+                //                     [120, 120]
+                //                 ],
+                //                 barColors:['#dfe4ea', '#a4b0be']
+                //             }}
+                //             hideLegend
+                //             width={width}
+                //             height={220}
+                //             chartConfig={{
+                //                 backgroundColor: 'white',
+                //                 backgroundGradientFrom: 'white',
+                //                 backgroundGradientTo: 'gray',
+                //                 color: (opacity=1) => `rgba(0, 0, 0, ${opacity})`
+                //             }}
+                //         />
+                //     </View>
+                // }
+
                 renderItem={({item})=>{
                     return (
                         <AccountHistoryListItemView
                             item={item}
-                            onPressItem={(clicked) => {
-                                navigation.push('Detail', {item: clicked})
+                            onPressItem={(clickedItem) => {
+                                navigation.push('Detail', {item: clickedItem})
                             }}
                         />
                     )
