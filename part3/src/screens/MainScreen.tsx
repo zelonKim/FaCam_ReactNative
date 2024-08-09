@@ -228,6 +228,8 @@ import SQLite from 'react-native-sqlite-storage';
 import { useAccountBookHistoryItem } from '../hooks/useAccountBookHistoryItem';
 import { useFocusEffect } from '@react-navigation/native';
 import { StackedBarChart } from 'react-native-chart-kit';
+import { Typography } from '../components/Typography';
+import { Spacer } from '../components/Spacer';
 
 
 const now = new Date().getTime();
@@ -236,7 +238,7 @@ export const MainScreen: React.FC = () => {
     const navigation = useRootNavigation();
     const safeAreaInset = useSafeAreaInsets();
 
-    const {getList} = useAccountBookHistoryItem();
+    const {getList, getMonthlyAverage} = useAccountBookHistoryItem();
     const {width} = useWindowDimensions();
 
     useEffect(() => {
@@ -256,7 +258,7 @@ export const MainScreen: React.FC = () => {
         {
             id: 0,
             type: '사용',
-            price: 10000,
+            price: 30000,
             comment: 'test1',
             date: now,
             createdAt: now,
@@ -275,11 +277,18 @@ export const MainScreen: React.FC = () => {
         }
     ]);
 
+    const [average, setAverage] = useState<{month:number, data:number[]}[]>([]);
 
     const fetchList = useCallback(async()=>{
         const data = await getList();
+        console.log(data);
         setList(data);
-    },[getList])
+
+        const monthlyAverage = await getMonthlyAverage();
+        setAverage(monthlyAverage);
+        
+    },[getList, getMonthlyAverage])
+
 
 
     useFocusEffect(
@@ -297,31 +306,36 @@ export const MainScreen: React.FC = () => {
 
             <FlatList 
                 data={list}
-                // ListHeaderComponent={
-                //     <View>
-                //         <StackedBarChart 
-                //             data={{
-                //                 labels: ['10월', '11월', '12월'],
-                //                 legend: ['사용','수입'],
-                //                 data: [
-                //                     [60, 60],
-                //                     [30, 30],
-                //                     [120, 120]
-                //                 ],
-                //                 barColors:['#dfe4ea', '#a4b0be']
-                //             }}
-                //             hideLegend
-                //             width={width}
-                //             height={220}
-                //             chartConfig={{
-                //                 backgroundColor: 'white',
-                //                 backgroundGradientFrom: 'white',
-                //                 backgroundGradientTo: 'gray',
-                //                 color: (opacity=1) => `rgba(0, 0, 0, ${opacity})`
-                //             }}
-                //         />
-                //     </View>
-                // }
+                ListHeaderComponent={
+                    <Button onPress={()=>navigation.push('MonthlyAverage')}>
+                        <View 
+                            style={{
+                                height: 200, 
+                                alignItems:'center',
+                                justifyContent: 'center'
+                            }}>
+                            <View>
+                                <Typography fontSize={16} color='gray'>
+                                    이번달 총 사용금액
+                                </Typography>
+                                <Spacer space={12} />
+                                <Typography fontSize={24}>
+                                    {average[average.length-1]?.data[0]?.toString()} 원
+                                </Typography>
+                            </View>
+                            
+                            <View>
+                                <Typography fontSize={16} color='gray'>
+                                    이번달 총 수입금액
+                                </Typography>
+                                <Spacer space={12} />
+                                <Typography fontSize={24}>
+                                    {average[average.length-1]?.data[1]?.toString()} 원
+                                </Typography>
+                            </View>
+                        </View>
+                    </Button>
+                }
 
                 renderItem={({item})=>{
                     return (
