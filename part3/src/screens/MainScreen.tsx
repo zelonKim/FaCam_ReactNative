@@ -214,7 +214,7 @@ export const MainScreen: React.FC = () => {
 ///////////////////////////////////
 
 
-
+/*
 import React, { useCallback, useEffect, useState } from 'react';
 import { FlatList, View, useWindowDimensions } from 'react-native';
 import { Header } from '../components/Header/Header';
@@ -371,6 +371,25 @@ export const MainScreen: React.FC = () => {
                     </View>
                 </Button>
             </View>
+        </View>
+    )
+}
+*/
+
+///////////////////
+
+
+
+import React from "react";
+import { View } from "react-native";
+import { Header } from "../components/Header/Header";
+
+export const MainScreen:React.FC = () => {
+    return (
+        <View style={{flex:1}}>
+            <Header>
+                <Header.Title title="MainScreen" />
+            </Header>
         </View>
     )
 }

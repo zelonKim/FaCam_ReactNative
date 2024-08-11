@@ -1794,6 +1794,13 @@
     firebase "10.12.2"
     superstruct "^0.6.2"
 
+"@react-native-firebase/auth@^20.3.0":
+  version "20.3.0"
+  resolved "https://registry.npmjs.org/@react-native-firebase/auth/-/auth-20.3.0.tgz"
+  integrity sha512-pG8s1z7XgxYiwe9TS4PB0LmnyAdZIBFFI3Sh9L/LsipTJshDmxHLDU3BLuV2KyF7XxFj6jdnvmYi+4QTNzIKpg==
+  dependencies:
+    plist "^3.1.0"
+
 "@react-native-firebase/database@^20.3.0":
   version "20.3.0"
   resolved "https://registry.npmjs.org/@react-native-firebase/database/-/database-20.3.0.tgz"
@@ -1803,6 +1810,16 @@
   version "20.3.0"
   resolved "https://registry.npmjs.org/@react-native-firebase/dynamic-links/-/dynamic-links-20.3.0.tgz"
   integrity sha512-rQZEkPBpfOdgj1HiyDgCnM8ENFqg5ONL+42oHxZySus+O425rSG/ic/xSXjbvlIMzjEAjTU9SHKqqzp/pPW0RA==
+
+"@react-native-firebase/storage@^20.3.0":
+  version "20.3.0"
+  resolved "https://registry.npmjs.org/@react-native-firebase/storage/-/storage-20.3.0.tgz"
+  integrity sha512-0pqJ7Syqh5pJWsA6PhFceGd/9w30ipi3DmcSrQ9MrtcCkneIycxhJ+6NVvNWudX2ULlvpuP6BnBom99vRd1V/A==
+
+"@react-native-google-signin/google-signin@^12.2.1":
+  version "12.2.1"
+  resolved "https://registry.npmjs.org/@react-native-google-signin/google-signin/-/google-signin-12.2.1.tgz"
+  integrity sha512-qt2Cb+bN2NS8BBT06M3UbLVS1gaSYTenNh4uZtPNmyJC23xZAynLkuhvsC6gmeEnxcj0wLVUn1Es+LSHw0OhVQ==
 
 "@react-native/assets-registry@0.74.86":
   version "0.74.86"
@@ -1960,6 +1977,15 @@
     invariant "^2.2.4"
     nullthrows "^1.1.1"
 
+"@react-navigation/bottom-tabs@^6.6.1":
+  version "6.6.1"
+  resolved "https://registry.npmjs.org/@react-navigation/bottom-tabs/-/bottom-tabs-6.6.1.tgz"
+  integrity sha512-9oD4cypEBjPuaMiu9tevWGiQ4w/d6l3HNhcJ1IjXZ24xvYDSs0mqjUcdt8SWUolCvRrYc/DmNBLlT83bk0bHTw==
+  dependencies:
+    "@react-navigation/elements" "^1.3.31"
+    color "^4.2.3"
+    warn-once "^0.1.0"
+
 "@react-navigation/core@^6.4.17":
   version "6.4.17"
   resolved "https://registry.npmjs.org/@react-navigation/core/-/core-6.4.17.tgz"
@@ -2104,6 +2130,13 @@
 
 "@types/prop-types@*":
   version "15.7.12"
+
+"@types/react-native-actionsheet@^2.4.7":
+  version "2.4.7"
+  resolved "https://registry.npmjs.org/@types/react-native-actionsheet/-/react-native-actionsheet-2.4.7.tgz"
+  integrity sha512-OxseY74NqeSbUDLhXGuWmxrViZRQ0arLFGMcrkvm1RaWhOGGBMhVsa6LDjHTtk4fDkVGsnwakXyLo/iwJw/b3A==
+  dependencies:
+    "@types/react" "*"
 
 "@types/react-native-sqlite-storage@^6.0.5":
   version "6.0.5"
@@ -2260,6 +2293,11 @@
 
 "@ungap/structured-clone@^1.2.0":
   version "1.2.0"
+
+"@xmldom/xmldom@^0.8.8":
+  version "0.8.10"
+  resolved "https://registry.npmjs.org/@xmldom/xmldom/-/xmldom-0.8.10.tgz"
+  integrity sha512-2WALfTl4xo2SkGCYRt6rDTFfk9R1czmBvUQy12gK2KuRKIpWEhcbbzy8EZXtz/jkRqHX8bFEc6FC1HjX4TUWYw==
 
 "@yarnpkg/lockfile@^1.1.0":
   version "1.1.0"
@@ -2717,14 +2755,34 @@ color-convert@^1.9.0:
 
 color-convert@^2.0.1:
   version "2.0.1"
+  resolved "https://registry.npmjs.org/color-convert/-/color-convert-2.0.1.tgz"
+  integrity sha512-RRECPsj7iu/xb5oKYcsFHSppFNnsj/52OVTRKb4zP5onXwVF3zVmmToNcOfGC+CRDpfK/U584fMg38ZHCaElKQ==
   dependencies:
     color-name "~1.1.4"
 
+color-name@^1.0.0, color-name@1.1.3:
+  version "1.1.3"
+
 color-name@~1.1.4:
   version "1.1.4"
+  resolved "https://registry.npmjs.org/color-name/-/color-name-1.1.4.tgz"
+  integrity sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==
 
-color-name@1.1.3:
-  version "1.1.3"
+color-string@^1.9.0:
+  version "1.9.1"
+  resolved "https://registry.npmjs.org/color-string/-/color-string-1.9.1.tgz"
+  integrity sha512-shrVawQFojnZv6xM40anx4CkoDP+fZsw/ZerEMsW/pyzsRbElpsL/DBVW7q3ExxwusdNXI3lXpuhEZkzs8p5Eg==
+  dependencies:
+    color-name "^1.0.0"
+    simple-swizzle "^0.2.2"
+
+color@^4.2.3:
+  version "4.2.3"
+  resolved "https://registry.npmjs.org/color/-/color-4.2.3.tgz"
+  integrity sha512-1rXeuUUiGGrykh+CeBdu5Ie7OJwinCgQY0bc7GCRxy5xVHy+moaqkpL/jqQq0MtQOeYcrqEz4abc5f0KtU7W4A==
+  dependencies:
+    color-convert "^2.0.1"
+    color-string "^1.9.0"
 
 colorette@^1.0.7:
   version "1.4.0"
@@ -2989,6 +3047,11 @@ ee-first@1.1.1:
 
 electron-to-chromium@^1.5.4:
   version "1.5.4"
+
+email-validator@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.npmjs.org/email-validator/-/email-validator-2.0.4.tgz"
+  integrity sha512-gYCwo7kh5S3IDyZPLZf6hSS0MnZT8QmJFqYvbqlDZSbwdZlY6QZWxJ4i/6UhITOJ4XzyI647Bm2MXKCLqnJ4nQ==
 
 emittery@^0.13.1:
   version "0.13.1"
@@ -3778,6 +3841,11 @@ is-array-buffer@^3.0.4:
 
 is-arrayish@^0.2.1:
   version "0.2.1"
+
+is-arrayish@^0.3.1:
+  version "0.3.2"
+  resolved "https://registry.npmjs.org/is-arrayish/-/is-arrayish-0.3.2.tgz"
+  integrity sha512-eVRqCvVlZbuw3GrM63ovNSNAeA1K16kaR/LRY/92w0zxQ5/1YzwblUX652i4Xs9RwAGjW9d9y6X88t8OaAJfWQ==
 
 is-async-function@^2.0.0:
   version "2.0.0"
@@ -5072,6 +5140,15 @@ pkg-dir@^4.2.0:
   dependencies:
     find-up "^4.0.0"
 
+plist@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.npmjs.org/plist/-/plist-3.1.0.tgz"
+  integrity sha512-uysumyrvkUX0rX/dEVqt8gC3sTBzd4zoWfLeS29nb53imdaXVvLINYXTI2GNqzaMuvacNx4uJQ8+b3zXR0pkgQ==
+  dependencies:
+    "@xmldom/xmldom" "^0.8.8"
+    base64-js "^1.5.1"
+    xmlbuilder "^15.1.1"
+
 point-in-polygon@^1.0.1:
   version "1.1.0"
   resolved "https://registry.npmjs.org/point-in-polygon/-/point-in-polygon-1.1.0.tgz"
@@ -5128,7 +5205,7 @@ prompts@^2.0.1, prompts@^2.4.2:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@^15.5.10, prop-types@^15.6.0, prop-types@^15.7.2, prop-types@^15.8.1, prop-types@15.8.1:
+prop-types@^15.5.10, prop-types@^15.6.0, prop-types@^15.7.2, prop-types@^15.8.1, prop-types@>=15.4.0, prop-types@15.8.1:
   version "15.8.1"
   dependencies:
     loose-envify "^1.4.0"
@@ -5218,6 +5295,11 @@ react-is@^16.7.0:
 react-is@^17.0.1:
   version "17.0.2"
 
+react-native-actionsheet@^2.4.2:
+  version "2.4.2"
+  resolved "https://registry.npmjs.org/react-native-actionsheet/-/react-native-actionsheet-2.4.2.tgz"
+  integrity sha512-DBoWIvVwuWXuptF4t46pBqkFxaUxS+rsIdHiA05t0n4BdTIDV2R4s9bLEUVOGzb94D7VxIamsXZPA/3mmw+SXg==
+
 react-native-calendars@^1.1306.0:
   version "1.1306.0"
   resolved "https://registry.npmjs.org/react-native-calendars/-/react-native-calendars-1.1306.0.tgz"
@@ -5241,6 +5323,11 @@ react-native-chart-kit@^6.12.0:
     lodash "^4.17.13"
     paths-js "^0.4.10"
     point-in-polygon "^1.0.1"
+
+react-native-image-crop-picker@^0.41.2:
+  version "0.41.2"
+  resolved "https://registry.npmjs.org/react-native-image-crop-picker/-/react-native-image-crop-picker-0.41.2.tgz"
+  integrity sha512-GcDu/adXU/1y/MrxsbOfqcGRGWC2pTttt5VGy/jyRJ6GXfoC29fTQf8SG5kGtc5schSR6K+mKYO4uW6eJPljlQ==
 
 react-native-kakao-share-link@^1.0.10:
   version "1.0.10"
@@ -5319,7 +5406,7 @@ react-native-vision-camera@^4.5.1:
   resolved "https://registry.npmjs.org/react-native-vision-camera/-/react-native-vision-camera-4.5.1.tgz"
   integrity sha512-ob7gfBYin4lG2zlzRr5y4rYJN3NCCyJotFX1z3ul8V0N2GwkCGh31cko6hF9DXG4VocSPVYKt+K5W0CWLp3y0g==
 
-react-native@*, react-native@^0.74.4, "react-native@>= 0.30.0", "react-native@>= 0.50.0", "react-native@>= 0.64.3", react-native@>=0.14.0, react-native@>=0.39.0, react-native@>=0.59:
+react-native@*, react-native@^0.74.4, "react-native@>= 0.30.0", "react-native@>= 0.50.0", "react-native@>= 0.64.3", react-native@>=0.14.0, react-native@>=0.39.0, react-native@>=0.40.0, react-native@>=0.59:
   version "0.74.4"
   resolved "https://registry.npmjs.org/react-native/-/react-native-0.74.4.tgz"
   integrity sha512-Cox7h0UkFPY+79DsInn2BAhnmGiqKBHKoYHoPAPW8oQCPyna8jvS0hfUmHBWm/MOHSXi4NYPKd5plpD50B3B2Q==
@@ -5378,7 +5465,7 @@ react-test-renderer@18.2.0:
     react-shallow-renderer "^16.15.0"
     scheduler "^0.23.0"
 
-react@*, "react@^16.0.0 || ^17.0.0 || ^18.0.0", react@^18.2.0, "react@> 16.7.0", "react@>= 15.2.1", "react@>= 17.0.1", react@>=16.8, react@>=17.0.0, react@18.2.0:
+react@*, "react@^16.0.0 || ^17.0.0 || ^18.0.0", react@^18.2.0, "react@> 16.7.0", "react@>= 15.2.1", "react@>= 17.0.1", react@>=15.4.0, react@>=16.8, react@>=17.0.0, react@18.2.0:
   version "18.2.0"
   dependencies:
     loose-envify "^1.1.0"
@@ -5688,6 +5775,13 @@ side-channel@^1.0.4, side-channel@^1.0.6:
 
 signal-exit@^3.0.2, signal-exit@^3.0.3, signal-exit@^3.0.7:
   version "3.0.7"
+
+simple-swizzle@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.npmjs.org/simple-swizzle/-/simple-swizzle-0.2.2.tgz"
+  integrity sha512-JA//kQgZtbuY83m+xT+tXJkmJncGMTFT+C+g2h2R9uxkYIrE2yy9sgmcLhCnw57/WSD+Eh3J97FPEDFnbXnDUg==
+  dependencies:
+    is-arrayish "^0.3.1"
 
 sisteransi@^1.0.5:
   version "1.0.5"
@@ -6241,6 +6335,11 @@ xdate@^0.8.0:
   version "0.8.3"
   resolved "https://registry.npmjs.org/xdate/-/xdate-0.8.3.tgz"
   integrity sha512-1NhJWPJwN+VjbkACT9XHbQK4o6exeSVtS2CxhMPwUE7xQakoEFTlwra9YcqV/uHQVyeEUYoYC46VGDJ+etnIiw==
+
+xmlbuilder@^15.1.1:
+  version "15.1.1"
+  resolved "https://registry.npmjs.org/xmlbuilder/-/xmlbuilder-15.1.1.tgz"
+  integrity sha512-yMqGBqtXyeN1e3TGYvgNgDVZ3j84W4cwkOXQswghol6APgZWaff9lnbvN7MHYJOiXsvGPXtjTYJEiC9J2wv9Eg==
 
 xtend@~4.0.1:
   version "4.0.2"

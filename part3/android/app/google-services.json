@@ -9,10 +9,15 @@
       "client_info": {
         "mobilesdk_app_id": "1:1043551233169:android:3ab57c7ff573faee9dcb30",
         "android_client_info": {
-          "package_name": "com.part3"
+          "package_name": "com.lovedog"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1071814088941-qm7mqbcr94db3batghe5co9heff16bls.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAAMPAOef0YlQO019V8di65tIqDWyWhZQ0"

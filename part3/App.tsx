@@ -170,7 +170,6 @@ export default App;
 
 
 
-
 //////////////////////////////
 
 
@@ -438,7 +437,7 @@ export default App;
 ////////////////////////
 
 
-
+/*
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
 import type {PropsWithChildren} from 'react';
@@ -473,6 +472,32 @@ function App(): React.JSX.Element {
         <ListView />
       </SafeAreaProvider>
   );
+}
+
+export default App;  
+*/
+
+/////////////////////////
+
+
+import React from 'react';
+import { NavigationContainer } from "@react-navigation/native"
+import { SafeAreaProvider } from "react-native-safe-area-context"
+import { RootStackNavigation } from "./src/navigation/RootStackNavigation"
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+
+GoogleSignin.configure({
+  webClientId: '1071814088941-qm7mqbcr94db3batghe5co9heff16bls.apps.googleusercontent.com'
+})
+
+function App(): React.JSX.Element {
+  return(
+    <SafeAreaProvider>
+      <NavigationContainer>
+        <RootStackNavigation />
+      </NavigationContainer>
+    </SafeAreaProvider>
+  )
 }
 
 export default App;  

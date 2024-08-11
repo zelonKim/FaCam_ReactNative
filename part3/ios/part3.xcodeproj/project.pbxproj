@@ -14,9 +14,9 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2D10BF8C2C5F7BEE00566DAD /* CalculatorModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D10BF8B2C5F7BEE00566DAD /* CalculatorModule.swift */; };
 		2D10BF8E2C5F823300566DAD /* CalculatorModuleBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D10BF8D2C5F823300566DAD /* CalculatorModuleBridge.m */; };
+		2D895A312C6871FA00BA9B40 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2D895A302C6871F900BA9B40 /* GoogleService-Info.plist */; };
 		2D8AECB72C630F82000ECFA0 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D8AECB62C630F82000ECFA0 /* File.swift */; };
 		2D8AECB92C634DBA000ECFA0 /* account_history.db in Resources */ = {isa = PBXBuildFile; fileRef = 2D8AECB82C634DBA000ECFA0 /* account_history.db */; };
-		2DF069CB2C61EFDC00B41E73 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2DF069CA2C61EFDB00B41E73 /* GoogleService-Info.plist */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		A882AB7F959810D81F08BD19 /* Pods_part3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 735E19898648CF0ADF550FA6 /* Pods_part3.framework */; };
 		AE8ED4819BDEC0991702C089 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 8C6DC18566C1A69E80DB59D5 /* PrivacyInfo.xcprivacy */; };
@@ -66,9 +66,9 @@
 		2D82161B2C60B559004E3BBA /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Octicons.ttf; sourceTree = "<group>"; };
 		2D82161C2C60B559004E3BBA /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SimpleLineIcons.ttf; sourceTree = "<group>"; };
 		2D82161D2C60B559004E3BBA /* Zocial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Zocial.ttf; sourceTree = "<group>"; };
+		2D895A302C6871F900BA9B40 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2D8AECB62C630F82000ECFA0 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		2D8AECB82C634DBA000ECFA0 /* account_history.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = account_history.db; path = part3/www/account_history.db; sourceTree = "<group>"; };
-		2DF069CA2C61EFDB00B41E73 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-part3.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-part3.debug.xcconfig"; path = "Target Support Files/Pods-part3/Pods-part3.debug.xcconfig"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-part3.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-part3.release.xcconfig"; path = "Target Support Files/Pods-part3/Pods-part3.release.xcconfig"; sourceTree = "<group>"; };
 		5731CC83101A964281593D43 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = part3/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
@@ -120,6 +120,7 @@
 		13B07FAE1A68108700A75B9A /* part3 */ = {
 			isa = PBXGroup;
 			children = (
+				2D895A302C6871F900BA9B40 /* GoogleService-Info.plist */,
 				2D8AECB82C634DBA000ECFA0 /* account_history.db */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
@@ -185,7 +186,6 @@
 			isa = PBXGroup;
 			children = (
 				2D8AECB62C630F82000ECFA0 /* File.swift */,
-				2DF069CA2C61EFDB00B41E73 /* GoogleService-Info.plist */,
 				2D82161E2C60B559004E3BBA /* Fonts */,
 				13B07FAE1A68108700A75B9A /* part3 */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -316,7 +316,7 @@
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				2D8AECB92C634DBA000ECFA0 /* account_history.db in Resources */,
-				2DF069CB2C61EFDC00B41E73 /* GoogleService-Info.plist in Resources */,
+				2D895A312C6871FA00BA9B40 /* GoogleService-Info.plist in Resources */,
 				AE8ED4819BDEC0991702C089 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -572,7 +572,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.part3;
 				PRODUCT_NAME = part3;
 				SWIFT_OBJC_BRIDGING_HEADER = "part3-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -600,7 +600,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.part3;
 				PRODUCT_NAME = part3;
 				SWIFT_OBJC_BRIDGING_HEADER = "part3-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;

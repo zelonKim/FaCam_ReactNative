@@ -20,6 +20,6 @@ export const saveNewRestaurant = async(params:{
 export const getRestaurantList = async(): Promise<{title: string, address: string, latitude:number, longitude: number}[]> => {
     const db = database().ref('/restaurant')
     const snapshotValue = await db.once('value').then((snapshot) => snapshot.val());
-
+                          
     return Object.keys(snapshotValue).map((key) => snapshotValue[key])
 }

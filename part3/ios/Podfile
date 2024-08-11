@@ -17,8 +17,10 @@ if linkage != nil
 end
 
 target 'part3' do
-  config = use_native_modules!
   use_frameworks! :linkage => :static
+  
+  config = use_native_modules!
+  
   
   use_react_native!(
     :path => config[:reactNativePath],

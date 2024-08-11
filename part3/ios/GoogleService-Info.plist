@@ -2,18 +2,22 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CLIENT_ID</key>
+	<string>1071814088941-ak6b3ndgl8lg2uff0fdrshoq800hndds.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1071814088941-ak6b3ndgl8lg2uff0fdrshoq800hndds</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDb-9PjwXJJeQp36ZetBHyzY3MjEaPhF80</string>
+	<string>AIzaSyACD3w3mHI2rI-22OQO34PsV0-HeIjnJtc</string>
 	<key>GCM_SENDER_ID</key>
-	<string>1043551233169</string>
+	<string>1071814088941</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>org.reactjs.native.example.part3</string>
+	<string>com.lovedog</string>
 	<key>PROJECT_ID</key>
-	<string>favoriterestaurant-c97d8</string>
+	<string>lovedog-e78aa</string>
 	<key>STORAGE_BUCKET</key>
-	<string>favoriterestaurant-c97d8.appspot.com</string>
+	<string>lovedog-e78aa.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1043551233169:ios:1c260d98d1e4ad159dcb30</string>
+	<string>1:1071814088941:ios:ec337e633a191dfab794e4</string>
 </dict>
 </plist>
