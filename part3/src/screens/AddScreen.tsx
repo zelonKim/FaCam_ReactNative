@@ -7,7 +7,7 @@ import { SingleLineInput } from "../components/SingleLineInput";
 import { useRootNavigation, useRootRoute } from "../navigation/RootNavigation";
 import MapView, { Marker } from "react-native-maps";
 import { Button } from "../components/Button";
-import { saveNewRestaurant } from "../utils/RealTimeDataBaseUtils";
+// import { saveNewRestaurant } from "../utils/RealTimeDataBaseUtils";
 
 export const AddScreen: React.FC = () => {
     const [title, setTitle] = useState('');

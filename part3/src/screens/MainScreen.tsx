@@ -380,16 +380,163 @@ export const MainScreen: React.FC = () => {
 
 
 
-import React from "react";
-import { View } from "react-native";
+import React, { useCallback, useEffect } from "react";
+import {  View, useWindowDimensions } from "react-native";
 import { Header } from "../components/Header/Header";
+import { useDispatch, useSelector } from "react-redux";
+import { TypeRootReducer } from "../store";
+import { TypeDog } from "../data/TypeDog";
+import { TypeDogDispatch, getDog, likeDog } from "../actions/dog";
+import { RemoteImage } from "../components/RemoteImage";
+import { Spacer } from "../components/Spacer";
+import { Button } from "../components/Button";
+import { Icon } from "../components/Icons";
+import { Typography } from "../components/Typography";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
+import Animated, { interpolate, runOnJS, useAnimatedStyle, useSharedValue } from "react-native-reanimated";
 
 export const MainScreen:React.FC = () => {
+    const {width} = useWindowDimensions();
+
+    const dog = useSelector<TypeRootReducer, TypeDog | null>((store) => store.dog.currentDog)
+    
+    const dispatch = useDispatch<TypeDogDispatch>();
+
+    
+
+    const onPressLike = useCallback(() => {
+        if(dog === null) { 
+            return;
+        }
+       dispatch(likeDog(dog)); 
+       dispatch(getDog())
+    }, [dispatch, dog])
+
+    
+
+    const onPressNotLike = useCallback(() => {
+        dispatch(getDog());
+    }, [dispatch])
+
+
+    
+    useEffect(()=>{
+        dispatch(getDog());
+    }, [dispatch])
+
+
+    const start = useSharedValue({x:0, y:0})
+
+    const offset = useSharedValue({x:0, y:0});
+    
+
+    const gesture = Gesture
+                        .Pan()
+                        .runOnJS(true)
+                        .onBegin(() => {
+                            console.log('온 비긴')
+                        })
+                        .onUpdate((event) => {
+                            console.log(event); 
+                            console.log('온 업데이트'); 
+                            offset.value = { x: event.translationX + start.value.x, 
+                                             y: offset.value.y
+                                          }
+                        })
+                        .onFinalize(() => {
+                            if(offset.value.x < -150) { 
+                                runOnJS(onPressLike)();
+                            }
+                            if(offset.value.x > 150) {
+                                runOnJS(onPressNotLike)();
+                            }
+
+                            console.log('온 파이널라이즈')
+                            offset.value ={
+                                x: 0,
+                                y: 0
+                            }
+                        })
+
+
+
+    const animatedStyle = useAnimatedStyle(() => {
+        return {
+            transform: [
+                {
+                    translateX: interpolate(
+                        offset.value.x,
+                        [-200, 0, 200],
+                        [-100, 0, 100]
+                    )
+                },
+                {
+                    translateY: interpolate(
+                        offset.value.y,
+                        [-200, 0, 200],
+                        [-50, 0, -50]
+                    )
+                },
+                {
+                    rotate:`${interpolate(
+                        offset.value.x,
+                        [-200, 0, 200],
+                        [30, 0, -30],
+                    )}deg`
+                }
+            ]
+        }
+    })
+
+
+
     return (
         <View style={{flex:1}}>
             <Header>
                 <Header.Title title="MainScreen" />
             </Header>
+            <View style={{flex:1, alignItems:'center', justifyContent:'center'}}>
+                {dog !== null && (
+                    <View style={{width: width * 0.7}}>
+                        <GestureDetector gesture={gesture}>
+                            <Animated.View style={{alignItems:'center', justifyContent:'center'}}>
+                                <Animated.View style={animatedStyle}>
+                                    <RemoteImage 
+                                        url={dog.photoUrl} 
+                                        width={width * 0.7} 
+                                        height={width * 0.7} 
+                                    />
+                                </Animated.View>
+                            </Animated.View>
+                        </GestureDetector>
+
+                        <Spacer space={64} />
+
+                        <View style={{flexDirection: 'row'}}>
+                            <View style={{flex:1, marginRight:10}}>
+                                <Button onPress={onPressLike}>
+                                    <View style={{paddingVertical:12, backgroundColor:'red', alignItems:'center', justifyContent:'center', borderRadius:4}}>
+                                        <Icon name='thumbs-up' color='white' size={16} />
+                                        <Typography fontSize={20} color="white">
+                                            LIKE
+                                        </Typography>
+                                    </View>
+                                </Button>
+                            </View>
+                            <View style={{flex:1, marginLeft:10}}>
+                                <Button onPress={onPressNotLike}>
+                                    <View style={{paddingVertical:12, backgroundColor:'blue', alignItems:'center', justifyContent:'center', borderRadius:4}}>
+                                        <Icon name='thumbs-down' color='white' size={16} />
+                                        <Typography fontSize={20} color="white">
+                                            NOT LIKE
+                                        </Typography>
+                                    </View>
+                                </Button>
+                            </View>
+                        </View>
+                    </View>
+                )}
+            </View>
         </View>
     )
 }

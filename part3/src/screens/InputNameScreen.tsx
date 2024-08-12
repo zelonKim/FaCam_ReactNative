@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useRef, useState } from "react";
-import { View } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 import { Header } from "../components/Header/Header";
 import { useRootNavigation } from "../navigation/RootStackNavigation";
 import { Button } from "../components/Button";
@@ -13,6 +13,10 @@ import { Icon } from "../components/Icons";
 import ImagePicker from "react-native-image-crop-picker";
 import ActionSheet from 'react-native-actionsheet';
 import { uploadFile } from "../utils/FileUtils";
+import database from '@react-native-firebase/database'
+import { setUser } from "../actions/user";
+import { useDispatch } from "react-redux";
+
 
 export const InputNameScreen:React.FC = () => {
     const rootNavigation = useRootNavigation<'Signup'>();
@@ -20,10 +24,13 @@ export const InputNameScreen:React.FC = () => {
     const routes = useSignupRoute<'InputName'>();
     const safeArea = useSafeAreaInsets();
     const actionSheetRef = useRef<ActionSheet>(null);
+    const dispatch = useDispatch();
 
     const [selectedPhoto, setSelectedPhoto] = useState<{uri: string} | null>(null);
     const [profileImage] = useState(routes.params.preInput.profileImage);
     const [inputName, setInputName] = useState(routes.params.preInput.email);
+    const [isLoading, setIsLoading] = useState(false);
+
 
     const isValid = useMemo(()=>{
         return true;
@@ -41,10 +48,48 @@ export const InputNameScreen:React.FC = () => {
             }
             return profileImage;
         }
+        setIsLoading(true);
+
         const photoUrl = await getPhotoUrl();
 
+        const currentTime = new Date();
 
-    }, [profileImage, selectedPhoto])
+        const reference = database().ref(`member/${routes.params.uid}`);
+
+        await reference.set({
+            name: inputName,
+            email: routes.params.inputEmail,
+            profile: photoUrl,
+            regeditAt: currentTime.toISOString(),
+            lastLoginAt: currentTime.toISOString(),
+        })
+
+
+        const userInfo = await reference.once('value').then((snapshot) => snapshot.val());
+
+        dispatch(setUser({
+            uid: routes.params.uid,
+            userEmail: userInfo.email,
+            userName: userInfo.name,
+            profileImage: userInfo.profile,
+        }))
+
+
+        rootNavigation.reset({
+            routes: [{name: 'Main'}]
+        })
+
+        setIsLoading(false);
+
+    }, [dispatch,
+        inputName, 
+        profileImage, 
+        rootNavigation, 
+        routes.params.inputEmail, 
+        routes.params.uid, 
+        selectedPhoto
+    ])
+
 
     return (
         <View style={{flex:1}}>
@@ -94,9 +139,13 @@ export const InputNameScreen:React.FC = () => {
                 <View style={{backgroundColor: isValid ? 'black' : 'lightgray'}}>
                     <Spacer space={16} />
                     <View style={{alignItems:'center', justifyContent:'center'}}>
-                        <Typography fontSize={20} color='white'>
-                            회원가입
-                        </Typography>
+                        {isLoading ? ( 
+                            <ActivityIndicator size={20} color="white" />
+                        ): ( 
+                            <Typography fontSize={20} color='white'>
+                                회원가입
+                            </Typography>
+                        )}
                     </View>
                     <Spacer space={safeArea.bottom + 12} />
                 </View>

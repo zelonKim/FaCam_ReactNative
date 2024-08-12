@@ -483,8 +483,11 @@ export default App;
 import React from 'react';
 import { NavigationContainer } from "@react-navigation/native"
 import { SafeAreaProvider } from "react-native-safe-area-context"
-import { RootStackNavigation } from "./src/navigation/RootStackNavigation"
+import { RootStackNavigation, TypeRootStackNavigationParams } from "./src/navigation/RootStackNavigation"
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { Provider } from 'react-redux';
+import store from './src/store';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 GoogleSignin.configure({
   webClientId: '1071814088941-qm7mqbcr94db3batghe5co9heff16bls.apps.googleusercontent.com'
@@ -493,9 +496,29 @@ GoogleSignin.configure({
 function App(): React.JSX.Element {
   return(
     <SafeAreaProvider>
-      <NavigationContainer>
-        <RootStackNavigation />
-      </NavigationContainer>
+      <Provider store={store}>
+        <GestureHandlerRootView style={{flex:1}}>
+          <NavigationContainer<TypeRootStackNavigationParams> 
+              linking={{
+                prefixes: ['mydog://'],
+                config: {
+                  screens: {
+                    HistoryList: '/history',
+                    Main: {
+                      path: '/',
+                      screens: {
+                        Main: '/main',
+                        My: '/my',
+                      }
+                    }
+                  }
+                }
+              }}
+          >
+            <RootStackNavigation />
+          </NavigationContainer>
+        </GestureHandlerRootView>
+      </Provider>
     </SafeAreaProvider>
   )
 }
