@@ -10,6 +10,9 @@ export const GET_USER_LIKED_HISTORY_REQUEST = 'GET_USER_LIKED_HISTORY_REQUEST' a
 export const GET_USER_LIKED_HISTORY_SUCCESS = 'GET_USER_LIKED_HISTORY_SUCCESS' as const
 export const GET_USER_LIKED_HISTORY_FAILURE = 'GET_USER_LIKED_HISTORY_FAILURE' as const
 
+export const PURCHASE_ITEM_SUCCESS = 'PURCHASE_ITEM_SUCCESS' as const 
+export const PURCHASE_ITEM_FAILURE = 'PURCHASE_ITEM_FAILURE' as const 
+
 
 export const setUser = (user:TypeUser) => {
     return {
@@ -38,6 +41,21 @@ export const getUserLikedHistoryFailure = () => {
 }
 
 
+export const purchaseItemSuccess = () => {
+    return {
+        type: PURCHASE_ITEM_SUCCESS
+    }
+}
+
+export const purchaseItemFailure = () => {
+    return {
+        type: PURCHASE_ITEM_FAILURE
+    }
+}
+
+
+
+
 export const getUserLikedHistory = ():TypeUserThunkAction => async(dispatch, getState) => {
     dispatch(getUserLikedHistoryRequest())   
 
@@ -64,6 +82,21 @@ export const getUserLikedHistory = ():TypeUserThunkAction => async(dispatch, get
 }
 
 
+export const userPurchaseItem = ():TypeUserThunkAction => async(dispatch, getState) => {
+    const user = getState().user.user;
+    if(user === null) {
+        dispatch(purchaseItemFailure());
+        return;
+    }
+    const memberRef = `member/${user.uid}`;
+    const reference = await database().ref(memberRef);
+    await reference.update({
+        availableLikeCount: user.availableLikeCount + 5 
+    })
+    dispatch(purchaseItemSuccess());
+}
+
+
 export type TypeUserThunkAction = ThunkAction<void, TypeRootReducer, undefined, UserActions>
 
 export type TypeUserDispatch = ThunkDispatch<TypeRootReducer, undefined, UserActions>
@@ -73,4 +106,6 @@ export type UserActions =
     | ReturnType<typeof setUser> 
     | ReturnType<typeof getUserLikedHistoryRequest>
     | ReturnType<typeof getUserLikedHistorySuccess>
-    | ReturnType<typeof getUserLikedHistoryFailure>;
+    | ReturnType<typeof getUserLikedHistoryFailure>
+    | ReturnType<typeof purchaseItemSuccess>
+    | ReturnType<typeof purchaseItemFailure>;

@@ -381,7 +381,7 @@ export const MainScreen: React.FC = () => {
 
 
 import React, { useCallback, useEffect } from "react";
-import {  View, useWindowDimensions } from "react-native";
+import {  Alert, View, useWindowDimensions } from "react-native";
 import { Header } from "../components/Header/Header";
 import { useDispatch, useSelector } from "react-redux";
 import { TypeRootReducer } from "../store";
@@ -394,6 +394,11 @@ import { Icon } from "../components/Icons";
 import { Typography } from "../components/Typography";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, { interpolate, runOnJS, useAnimatedStyle, useSharedValue } from "react-native-reanimated";
+import { Purchase, useIAP } from "react-native-iap";
+import { userPurchaseItem } from "../actions/user";
+import PushNotification from "react-native-push-notification";
+import analytics from '@react-native-firebase/analytics'
+
 
 export const MainScreen:React.FC = () => {
     const {width} = useWindowDimensions();
@@ -402,14 +407,103 @@ export const MainScreen:React.FC = () => {
     
     const dispatch = useDispatch<TypeDogDispatch>();
 
-    
 
-    const onPressLike = useCallback(() => {
+
+    const {requestPurchase, getProducts, getAvailablePurchases, currentPurchase, finishTransaction} = useIAP();
+
+
+    const onPressPurchaseItem = useCallback(async() => {
+        await getAvailablePurchases();
+        const productList = await getProducts({
+            skus: ['com.lovedog.product.10'] // 제품 ID
+        })
+
+        try {
+            await requestPurchase({
+                skus: ['com.lovedog.product.10']
+            })
+        } catch(ex) {
+            console.error(ex);
+        }
+    }, [requestPurchase, 
+        getProducts, 
+        getAvailablePurchases])
+
+
+
+    const userPurchasedItem = useCallback(async(purchase: Purchase) => {
+        try {
+            await dispatch(userPurchaseItem());
+        
+            finishTransaction({
+                purchase: purchase,
+                isConsumable: true,
+            })
+        } catch(ex) {
+            
+        }
+    }, [dispatch, finishTransaction])
+
+
+
+    useEffect(()=>{
+        if(currentPurchase) {
+            userPurchasedItem(currentPurchase);
+        }
+    },[currentPurchase, userPurchasedItem])
+
+
+
+
+    const onPressLike = useCallback(async() => {
         if(dog === null) { 
             return;
         }
-       dispatch(likeDog(dog)); 
-       dispatch(getDog())
+        analytics().logEvent('온 프레스 라이크', {dogPhoto: dog.photoUrl })
+
+        try {
+            PushNotification.createChannel(
+                {
+                    channelId: 'lovedog-channel',
+                    channelName: 'Love Dog Channel'
+                },
+                created => {
+                    console.log('크리에이티드', created)
+                },
+            )
+
+            PushNotification.localNotificationSchedule({
+                channelId: 'lovedog-channel',
+                id: new Date(Date.now()).getTime().toString(),
+                message: '들어와서 좋아요를 눌러보세요',
+                allowWhileIdle: true,
+                date: new Date(Date.now() + 10 * 1000),
+                picture: dog.photoUrl,
+                repeatTime: 1,
+            })
+
+            await dispatch(likeDog(dog)); 
+            dispatch(getDog())
+
+        } catch(ex) {
+            console.error(ex);
+            const error = ex as Error;
+            if(error.message === 'Today`s Like Count is Over') {
+                Alert.alert(
+                    '1일 좋아요 회수를 초과하였습니다.',
+                    '더 많은 강아지 사진을 좋아요 하려면 추가 좋아요를 구매 해주세요',
+                    [
+                        {
+                            text: '구매하기',
+                            onPress: onPressPurchaseItem,
+                        },
+                        {
+                            text: '다음에'
+                        }
+                    ]
+                )
+            }
+        }
     }, [dispatch, dog])
 
     

@@ -6,3 +6,5 @@ export const createAxiosInstance = () => {
     })
 }
 
+
+export const api = createAxiosInstance();

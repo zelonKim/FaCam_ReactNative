@@ -3,6 +3,7 @@ import { TypeDog } from "../data/TypeDog"
 import { TypeRootReducer } from "../store"
 import { createAxiosInstance } from "../utils/AxiosUtils"
 import database from '@react-native-firebase/database'
+import axios from "axios"
 
 export const GET_DOG_REQUEST = 'GET_DOG_REQUEST' as const
 export const GET_DOG_SUCCESS = 'GET_DOG_SUCCESS' as const
@@ -59,7 +60,7 @@ export const getDog = ():TypeDogThunkAction => async(dispatch) => {
     dispatch(getDogRequest());
 
     try { 
-        const apiResult = await createAxiosInstance().get<{message: string; status: string;}>('breeds/image/random');
+        const apiResult = await axios.get<{message: string; status: string;}>('breeds/image/random');
         const result = apiResult.data;
 
         dispatch(getDogSuccess({photoUrl: result.message}));
@@ -82,6 +83,11 @@ export const likeDog = (dog:TypeDog):TypeDogThunkAction => async(dispatch, getSt
         return;
     }
 
+    if(user.availableLikeCount <= 0) {
+        dispatch(likeDogFailure());
+        throw Error('Today`s Like Count is Over')
+    } 
+
     try { 
         const now = new Date().getTime();
         const ref = `history/${user.uid}` 
@@ -90,6 +96,13 @@ export const likeDog = (dog:TypeDog):TypeDogThunkAction => async(dispatch, getSt
             url: dog.photoUrl,
             regeditAt: now,
         })
+
+        const memberRef = `member/${user.uid}`;
+
+        await database().ref(memberRef).update({
+            availableLikeCount: user.availableLikeCount - 1
+        })
+
         dispatch(likeDogSuccess())
     } catch(ex) {
         dispatch(likeDogFailure())

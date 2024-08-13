@@ -15,6 +15,7 @@ import { ImageProps, Image as RNImage, StyleProp } from 'react-native'
 
 
 export const RemoteImage: React.FC<{
+    testID?: string,
     url: string,
     width: number,
     height: number,
@@ -22,11 +23,12 @@ export const RemoteImage: React.FC<{
 }> = (props) => {
     return(
         <RNImage 
+            testID={props.testID}
             source={{ uri: props.url }}
             style={[props.style, {
                 width: props.width,
                 height: props.height
             }]}
-            />
+        />
     )
 }

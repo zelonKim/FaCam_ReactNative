@@ -488,6 +488,7 @@ import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { Provider } from 'react-redux';
 import store from './src/store';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { withIAPContext } from 'react-native-iap';
 
 GoogleSignin.configure({
   webClientId: '1071814088941-qm7mqbcr94db3batghe5co9heff16bls.apps.googleusercontent.com'
@@ -523,4 +524,4 @@ function App(): React.JSX.Element {
   )
 }
 
-export default App;  
+export default withIAPContext(App);

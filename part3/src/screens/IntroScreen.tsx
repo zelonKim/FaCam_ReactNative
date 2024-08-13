@@ -10,6 +10,8 @@ import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database'
 import { useDispatch } from "react-redux";
 import { setUser } from "../actions/user";
+import messaging from '@react-native-firebase/messaging'
+import analytics from '@react-native-firebase/analytics'
 
 
 export const IntroScreen:React.FC = () => {
@@ -41,18 +43,37 @@ export const IntroScreen:React.FC = () => {
 
         const reference = database().ref(`member/${uid}`);
 
-        await reference.update({
-            lastLoginAt: currentTime.toISOString()
-        })
+
+        const lastLoginUserInfo = await reference.once('value').then((snapshot) => snapshot.val())
+        const lastLoginDate = new Date(lastLoginUserInfo.lastLoginAt);
+        const isLastLoginBeforeOneDay = currentTime.getTime() - lastLoginDate.getTime() >= 1000 * 60 * 60 * 24;
+
+
+        if(isLastLoginBeforeOneDay) {
+            await reference.update({
+                availableLikeCount: 5,
+                lastLoginAt: currentTime.toISOString(),
+            })
+        } else {
+            await reference.update({
+                lastLoginAt: currentTime.toISOString()
+            })
+        }
+
 
         const userInfo = await reference.once('value').then((snapshot) => snapshot.val());
+
+        analytics().logLogin({method: 'google'});
 
         dispatch(setUser({
             uid: uid,
             userEmail: userInfo.email,
             userName: userInfo.name,
             profileImage: userInfo.profile,
+            availableLikeCount: userInfo.availableLikeCount ?? 5,
         }))
+
+        analytics().logLogin({method: 'google'});
 
         rootNavigation.reset({
             routes: [{name: 'Main'}]
@@ -80,11 +101,24 @@ export const IntroScreen:React.FC = () => {
 
         const user = await reference.once('value').then((snapshot) => snapshot.val())
 
-        if(user !== null) {
-        await reference.update({
-            lastLoginAt: currentTime.toISOString()
-        })
 
+
+        if(user !== null) {
+            const lastLoginDate = new Date(user.lastLoginAt);
+            const isLastLoginBeforeOneDay = currentTime.getTime() - lastLoginDate.getTime() >= 1000 * 60 * 60 * 24;
+    
+        if(isLastLoginBeforeOneDay) {
+            await reference.update({
+                availableLikeCount: 5,
+                lastLoginAt: currentTime.toISOString(),
+            })
+        } else {
+            await reference.update({
+                lastLoginAt: currentTime.toISOString()
+            })
+        }
+
+      
         const userInfo = await reference.once('value').then((snapshot) => snapshot.val());
 
         dispatch(setUser({
@@ -92,6 +126,7 @@ export const IntroScreen:React.FC = () => {
             userEmail: userInfo.email,
             userName: userInfo.name,
             profileImage: userInfo.profile,
+            availableLikeCount: userInfo.availableLikeCount ?? 5,
         }))
 
         rootNavigation.reset({
@@ -115,10 +150,27 @@ export const IntroScreen:React.FC = () => {
         })
     }, [rootNavigation])
 
+    
+
+    const requestUserPermission = useCallback(async() => {
+        const authStatus = await messaging().requestPermission()
+
+        const enabled = 
+            authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+            authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+        if(enabled) {
+            const token = await messaging().getToken();
+            console.log('권한 상태: ', authStatus);
+            console.log('토큰: ', token)
+        }
+    }, [])
+
 
     useEffect(() => {
         checkUserLoginOnce(); 
-    }, [checkUserLoginOnce])
+        requestUserPermission();
+    }, [checkUserLoginOnce, requestUserPermission])
 
 
     return (

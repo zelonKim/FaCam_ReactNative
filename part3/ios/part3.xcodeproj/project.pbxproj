@@ -14,6 +14,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2D10BF8C2C5F7BEE00566DAD /* CalculatorModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D10BF8B2C5F7BEE00566DAD /* CalculatorModule.swift */; };
 		2D10BF8E2C5F823300566DAD /* CalculatorModuleBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D10BF8D2C5F823300566DAD /* CalculatorModuleBridge.m */; };
+		2D6FF91B2C6AFC7900C617BD /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D6FF91A2C6AFC7900C617BD /* StoreKit.framework */; };
 		2D895A312C6871FA00BA9B40 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2D895A302C6871F900BA9B40 /* GoogleService-Info.plist */; };
 		2D8AECB72C630F82000ECFA0 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D8AECB62C630F82000ECFA0 /* File.swift */; };
 		2D8AECB92C634DBA000ECFA0 /* account_history.db in Resources */ = {isa = PBXBuildFile; fileRef = 2D8AECB82C634DBA000ECFA0 /* account_history.db */; };
@@ -47,6 +48,9 @@
 		2D10BF8A2C5F7BEE00566DAD /* part3-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "part3-Bridging-Header.h"; sourceTree = "<group>"; };
 		2D10BF8B2C5F7BEE00566DAD /* CalculatorModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorModule.swift; sourceTree = "<group>"; };
 		2D10BF8D2C5F823300566DAD /* CalculatorModuleBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CalculatorModuleBridge.m; sourceTree = "<group>"; };
+		2D6FF9172C6AFA9F00C617BD /* part3.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = part3.entitlements; path = part3/part3.entitlements; sourceTree = "<group>"; };
+		2D6FF91A2C6AFC7900C617BD /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		2D6FF91C2C6B2CFE00C617BD /* part3Debug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = part3Debug.entitlements; path = part3/part3Debug.entitlements; sourceTree = "<group>"; };
 		2D8216092C60B559004E3BBA /* AntDesign.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AntDesign.ttf; sourceTree = "<group>"; };
 		2D82160C2C60B559004E3BBA /* Entypo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Entypo.ttf; sourceTree = "<group>"; };
 		2D82160D2C60B559004E3BBA /* EvilIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = EvilIcons.ttf; sourceTree = "<group>"; };
@@ -94,6 +98,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A882AB7F959810D81F08BD19 /* Pods_part3.framework in Frameworks */,
+				2D6FF91B2C6AFC7900C617BD /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -120,6 +125,8 @@
 		13B07FAE1A68108700A75B9A /* part3 */ = {
 			isa = PBXGroup;
 			children = (
+				2D6FF91C2C6B2CFE00C617BD /* part3Debug.entitlements */,
+				2D6FF9172C6AFA9F00C617BD /* part3.entitlements */,
 				2D895A302C6871F900BA9B40 /* GoogleService-Info.plist */,
 				2D8AECB82C634DBA000ECFA0 /* account_history.db */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -141,6 +148,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2D6FF91A2C6AFC7900C617BD /* StoreKit.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				735E19898648CF0ADF550FA6 /* Pods_part3.framework */,
 				1B7EA732ACD13B6647F96420 /* Pods_part3_part3Tests.framework */,
@@ -558,8 +566,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = part3/part3Debug.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 6M45F74ZG2;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = part3/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -574,6 +585,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.part3;
 				PRODUCT_NAME = part3;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "part3-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -587,8 +599,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = part3/part3.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 6M45F74ZG2;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = part3/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -602,6 +617,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.part3;
 				PRODUCT_NAME = part3;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "part3-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
