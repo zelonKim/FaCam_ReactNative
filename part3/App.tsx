@@ -170,6 +170,7 @@ export default App;
 
 
 
+
 //////////////////////////////
 
 
@@ -479,7 +480,7 @@ export default App;
 
 /////////////////////////
 
-
+/*
 import React from 'react';
 import { NavigationContainer } from "@react-navigation/native"
 import { SafeAreaProvider } from "react-native-safe-area-context"
@@ -525,3 +526,30 @@ function App(): React.JSX.Element {
 }
 
 export default withIAPContext(App);
+*/
+
+
+////////////////////
+
+import React from "react";
+import { useState } from "react"
+import { GesturePhotoView } from "./modules/react-native-photo-gesture/src";
+import { View } from "react-native";
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+
+export default function App() {
+  const [result,setReulst] = useState<number | undefined>();
+
+  return (
+    <View>
+      <GestureHandlerRootView>
+        <GesturePhotoView
+          url='https://docs.expo.dev/static/images/tutorial/background-image.png'
+          photoWidth={300}
+          photoHeight={300}
+          onGesture={(direction) => { console.log('디렉션:', direction)}}
+        />
+      </GestureHandlerRootView>
+    </View>
+  )
+}

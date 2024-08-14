@@ -15,9 +15,10 @@
 		2D10BF8C2C5F7BEE00566DAD /* CalculatorModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D10BF8B2C5F7BEE00566DAD /* CalculatorModule.swift */; };
 		2D10BF8E2C5F823300566DAD /* CalculatorModuleBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D10BF8D2C5F823300566DAD /* CalculatorModuleBridge.m */; };
 		2D6FF91B2C6AFC7900C617BD /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D6FF91A2C6AFC7900C617BD /* StoreKit.framework */; };
-		2D895A312C6871FA00BA9B40 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2D895A302C6871F900BA9B40 /* GoogleService-Info.plist */; };
 		2D8AECB72C630F82000ECFA0 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D8AECB62C630F82000ECFA0 /* File.swift */; };
 		2D8AECB92C634DBA000ECFA0 /* account_history.db in Resources */ = {isa = PBXBuildFile; fileRef = 2D8AECB82C634DBA000ECFA0 /* account_history.db */; };
+		2DEEEFC32C6C8E390096F4E3 /* GoogleService-Info-Debug.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2DEEEFC12C6C8E390096F4E3 /* GoogleService-Info-Debug.plist */; };
+		2DEEEFC42C6C8E390096F4E3 /* GoogleService-Info-Release.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2DEEEFC22C6C8E390096F4E3 /* GoogleService-Info-Release.plist */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		A882AB7F959810D81F08BD19 /* Pods_part3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 735E19898648CF0ADF550FA6 /* Pods_part3.framework */; };
 		AE8ED4819BDEC0991702C089 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 8C6DC18566C1A69E80DB59D5 /* PrivacyInfo.xcprivacy */; };
@@ -37,7 +38,7 @@
 		00E356EE1AD99517003FC87E /* part3Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = part3Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* part3Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = part3Tests.m; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* part3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = part3.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07F961A680F5B00A75B9A /* part3 Debug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "part3 Debug.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = part3/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = part3/AppDelegate.mm; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = part3/Images.xcassets; sourceTree = "<group>"; };
@@ -70,9 +71,10 @@
 		2D82161B2C60B559004E3BBA /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Octicons.ttf; sourceTree = "<group>"; };
 		2D82161C2C60B559004E3BBA /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SimpleLineIcons.ttf; sourceTree = "<group>"; };
 		2D82161D2C60B559004E3BBA /* Zocial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Zocial.ttf; sourceTree = "<group>"; };
-		2D895A302C6871F900BA9B40 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2D8AECB62C630F82000ECFA0 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		2D8AECB82C634DBA000ECFA0 /* account_history.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = account_history.db; path = part3/www/account_history.db; sourceTree = "<group>"; };
+		2DEEEFC12C6C8E390096F4E3 /* GoogleService-Info-Debug.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info-Debug.plist"; path = "../../../Downloads/GoogleService-Info-Debug.plist"; sourceTree = "<group>"; };
+		2DEEEFC22C6C8E390096F4E3 /* GoogleService-Info-Release.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info-Release.plist"; path = "../../../Downloads/GoogleService-Info-Release.plist"; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-part3.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-part3.debug.xcconfig"; path = "Target Support Files/Pods-part3/Pods-part3.debug.xcconfig"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-part3.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-part3.release.xcconfig"; path = "Target Support Files/Pods-part3/Pods-part3.release.xcconfig"; sourceTree = "<group>"; };
 		5731CC83101A964281593D43 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = part3/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
@@ -125,9 +127,10 @@
 		13B07FAE1A68108700A75B9A /* part3 */ = {
 			isa = PBXGroup;
 			children = (
+				2DEEEFC12C6C8E390096F4E3 /* GoogleService-Info-Debug.plist */,
+				2DEEEFC22C6C8E390096F4E3 /* GoogleService-Info-Release.plist */,
 				2D6FF91C2C6B2CFE00C617BD /* part3Debug.entitlements */,
 				2D6FF9172C6AFA9F00C617BD /* part3.entitlements */,
-				2D895A302C6871F900BA9B40 /* GoogleService-Info.plist */,
 				2D8AECB82C634DBA000ECFA0 /* account_history.db */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
@@ -210,7 +213,7 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* part3.app */,
+				13B07F961A680F5B00A75B9A /* part3 Debug.app */,
 				00E356EE1AD99517003FC87E /* part3Tests.xctest */,
 			);
 			name = Products;
@@ -255,6 +258,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "part3" */;
 			buildPhases = (
+				2DEEEFC52C6C8E690096F4E3 /* Copy Firebase Info Plist */,
 				C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
@@ -270,7 +274,7 @@
 			);
 			name = part3;
 			productName = part3;
-			productReference = 13B07F961A680F5B00A75B9A /* part3.app */;
+			productReference = 13B07F961A680F5B00A75B9A /* part3 Debug.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -324,8 +328,9 @@
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				2D8AECB92C634DBA000ECFA0 /* account_history.db in Resources */,
-				2D895A312C6871FA00BA9B40 /* GoogleService-Info.plist in Resources */,
 				AE8ED4819BDEC0991702C089 /* PrivacyInfo.xcprivacy in Resources */,
+				2DEEEFC42C6C8E390096F4E3 /* GoogleService-Info-Release.plist in Resources */,
+				2DEEEFC32C6C8E390096F4E3 /* GoogleService-Info-Debug.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -364,6 +369,24 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-part3/Pods-part3-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		2DEEEFC52C6C8E690096F4E3 /* Copy Firebase Info Plist */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Firebase Info Plist";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\ncase \"${CONFIGURATION}\" in \n  \"Debug\" )\ncp -r\n    \"$SRCROOT/{PRODUCT_NAME}/GoogleService-Info-Debug.plist\"\n    \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\n    .app/GoogleService-Info.plist\" ;;\n  \"Release\" )\ncp-r\n    \"$SRCROOT/{PRODUCT_NAME}/GoogleService-Info-Release.plist\"\n    \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\n    .app/GoogleService-Info.plist\" ;;\n";
 		};
 		A55EABD7B0C7F3A422A6CC61 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -568,9 +591,9 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = part3/part3Debug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 6M45F74ZG2;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = part3/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -583,8 +606,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.part3;
-				PRODUCT_NAME = part3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.part3.debug;
+				PRODUCT_NAME = "part3 Debug";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "part3-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -601,9 +624,9 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = part3/part3.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 6M45F74ZG2;
 				INFOPLIST_FILE = part3/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -707,10 +730,7 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
@@ -792,10 +812,7 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;

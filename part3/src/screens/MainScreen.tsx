@@ -413,13 +413,13 @@ export const MainScreen:React.FC = () => {
 
 
     const onPressPurchaseItem = useCallback(async() => {
-        await getAvailablePurchases();
-        const productList = await getProducts({
-            skus: ['com.lovedog.product.10'] // 제품 ID
+        await getAvailablePurchases(); // getAvailablePurchases(): 구매를 가능하게 함.
+        const productList = await getProducts({ // getProducts({ skus: ['제품ID'] }): 해당 제품을 가져온 후, 제품 리스트를 반환함.
+            skus: ['com.lovedog.product.10']
         })
 
         try {
-            await requestPurchase({
+            await requestPurchase({ // requestPurchase({ skus: ['제품ID'] }): 해당 제품의 구매를 요청함.
                 skus: ['com.lovedog.product.10']
             })
         } catch(ex) {
@@ -435,10 +435,14 @@ export const MainScreen:React.FC = () => {
         try {
             await dispatch(userPurchaseItem());
         
-            finishTransaction({
+            finishTransaction({ 
                 purchase: purchase,
                 isConsumable: true,
             })
+            // finishTransaction({
+            //     purchase: Purchase객체
+            //     isConsumable: 소비 가능 여부,
+            // }): 제품의 구매를 마친후, 소비할 수 있도록 해줌.
         } catch(ex) {
             
         }
@@ -447,7 +451,7 @@ export const MainScreen:React.FC = () => {
 
 
     useEffect(()=>{
-        if(currentPurchase) {
+        if(currentPurchase) { // currentPurchase: 현재 구매 요청한 제품의 Purchase객체를 가짐.
             userPurchasedItem(currentPurchase);
         }
     },[currentPurchase, userPurchasedItem])
@@ -462,7 +466,7 @@ export const MainScreen:React.FC = () => {
         analytics().logEvent('온 프레스 라이크', {dogPhoto: dog.photoUrl })
 
         try {
-            PushNotification.createChannel(
+            PushNotification.createChannel( 
                 {
                     channelId: 'lovedog-channel',
                     channelName: 'Love Dog Channel'
@@ -471,8 +475,18 @@ export const MainScreen:React.FC = () => {
                     console.log('크리에이티드', created)
                 },
             )
+            // PushNotification.createChannel( 
+            //     {
+            //         channelId: '채널 아이디',
+            //         channelName: '채널명'
+            //     },
+            //     (채널 생성 여부) => { 처리로직 }
+            // ): 알림 채널을 생성한 후, 콜백함수를 실행함. 
 
-            PushNotification.localNotificationSchedule({
+
+
+            
+            PushNotification.localNotificationSchedule({ 
                 channelId: 'lovedog-channel',
                 id: new Date(Date.now()).getTime().toString(),
                 message: '들어와서 좋아요를 눌러보세요',
@@ -481,6 +495,16 @@ export const MainScreen:React.FC = () => {
                 picture: dog.photoUrl,
                 repeatTime: 1,
             })
+            // PushNotification.localNotificationSchedule({ 
+            //     channelId: '채널 아이디',
+            //     id: '아이디',
+            //     message: '알림 메시지',
+            //     allowWhileIdle: 나태 허용 여부,
+            //     date: 알림 날짜,
+            //     picture: 사진URL,
+            //     repeatTime: 알림 반복 횟수,
+            // }): 해당 알림 채널을 통해서 지정된 날짜에 알림 메시지를 보냄.
+
 
             await dispatch(likeDog(dog)); 
             dispatch(getDog())

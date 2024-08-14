@@ -18,6 +18,7 @@ import { Pressable } from "react-native";
 
 
 export const Button: React.FC<{
+    testID?: string;
     onPressIn?: () => void
     onPressOut?: () => void
     onPress: () => void,
@@ -29,6 +30,8 @@ export const Button: React.FC<{
 }> = (props) => {
     return(
         <Pressable
+            {...props}
+            testID={props.testID}
             onPressIn = {props.onPressIn}
             onPressOut = {props.onPressOut}
             onPress={props.onPress}
