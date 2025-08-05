@@ -6,19 +6,46 @@ import SignupScreen from './src/SignupScreen/SignupScreen';
 import { Screen } from 'react-native-screens';
 import AuthProvider from './src/component/AuthProvider';
 import SigninScreen from './src/SigninScreen/SigninScreen';
+import { useCallback, useContext } from 'react';
+import AuthContext from './src/component/AuthContext';
+import HomeScreen from './src/HomeScreen/HomeScreen';
+import LoadingScreen from './src/LoadingScreen/LoadingScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const Screens = () => {
+  const { user, processingSignin, processingSignup, initialized } =
+    useContext(AuthContext);
+
+  const renderRootStack = useCallback(() => {
+    if (!initialized) {
+      return <Stack.Screen name="Loading" component={LoadingScreen} />;
+    }
+
+    if (user != null && !processingSignin && !processingSignup) {
+      // 로그인 상태
+      return <Stack.Screen name="Home" component={HomeScreen} />;
+    }
+
+    return (
+      // 로그아웃 상태
+      <>
+        <Stack.Screen name="Signup" component={SignupScreen} />
+        <Stack.Screen name="Signin" component={SigninScreen} />
+      </>
+    );
+  }, [user, processingSignin, processingSignup]);
+
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Signup" component={SignupScreen} />
-        <Stack.Screen name="Signin" component={SigninScreen} />
+        {renderRootStack()}
       </Stack.Navigator>
     </NavigationContainer>
   );
 };
+
+
 
 const App = () => {
   return (
