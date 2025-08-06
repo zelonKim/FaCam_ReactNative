@@ -10,6 +10,7 @@ import { useCallback, useContext } from 'react';
 import AuthContext from './src/component/AuthContext';
 import HomeScreen from './src/HomeScreen/HomeScreen';
 import LoadingScreen from './src/LoadingScreen/LoadingScreen';
+import ChatScreen from './src/ChatScreen/ChatScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -24,7 +25,12 @@ const Screens = () => {
 
     if (user != null && !processingSignin && !processingSignup) {
       // 로그인 상태
-      return <Stack.Screen name="Home" component={HomeScreen} />;
+      return (
+        <>
+          <Stack.Screen name="Home" component={HomeScreen} />;
+          <Stack.Screen name="Chat" component={ChatScreen} />;
+        </>
+      );
     }
 
     return (
@@ -44,8 +50,6 @@ const Screens = () => {
     </NavigationContainer>
   );
 };
-
-
 
 const App = () => {
   return (
