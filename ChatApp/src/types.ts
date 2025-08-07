@@ -25,3 +25,16 @@ export interface Chat {
   userIds: string[];
   users: User[];
 }
+
+export interface Message {
+  id: string;
+  user: User;
+  text: string;
+  createdAt: Date;
+}
+
+export interface FirestoreMessageData {
+  text: string;
+  user: User;
+  createdAt: Date;
+}

@@ -1,5 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Chat, Collections, User } from '../types';
+import {
+  Chat,
+  Collections,
+  FirestoreMessageData,
+  Message,
+  User,
+} from '../types';
 import firestore, { collection, doc } from '@react-native-firebase/firestore';
 import _ from 'lodash';
 
@@ -7,10 +13,11 @@ const getChatKey = (userIds: string[]) => {
   return _.orderBy(userIds, userId => userId, 'asc');
 };
 
-
 const useChat = (userIds: string[]) => {
   const [chat, setChat] = useState<Chat | null>(null);
   const [loadingChat, setLoadingChat] = useState(false);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [sending, setSending] = useState(false);
 
   const loadChat = useCallback(async () => {
     try {
@@ -53,6 +60,21 @@ const useChat = (userIds: string[]) => {
   useEffect(() => {
     loadChat();
   }, [loadChat]);
+
+
+  
+  const sendMessage = useCallback(async (text: string, user: User) => {
+    try {
+      setSending(true);
+      const data: FirestoreMessageData = {
+        text: text,
+        user: user,
+        createdAt: Date.now(),
+      };
+    } finally {
+      setSending(false);
+    }
+  }, []);
 
   return {
     chat,
