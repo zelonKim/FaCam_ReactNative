@@ -18,6 +18,7 @@ const useChat = (userIds: string[]) => {
   const [loadingChat, setLoadingChat] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [sending, setSending] = useState(false);
+  const [loadingMessages, setLoadingMessage] = useState(false);
 
   const loadChat = useCallback(async () => {
     try {
@@ -61,24 +62,78 @@ const useChat = (userIds: string[]) => {
     loadChat();
   }, [loadChat]);
 
+  const sendMessage = useCallback(
+    async (text: string, user: User) => {
+      if (chat?.id == null) {
+        throw new Error('Chat is not loaded');
+      }
+      try {
+        setSending(true);
+        const data: FirestoreMessageData = {
+          text: text,
+          user: user,
+          createdAt: new Date(),
+        };
 
-  
-  const sendMessage = useCallback(async (text: string, user: User) => {
+        const doc = await firestore()
+          .collection(Collections.CHATS)
+          .doc(chat.id)
+          .collection(Collections.MESSAGES) // 서브 컬렉션
+          .add(data);
+
+        setMessages(prevMessages =>
+          [
+            {
+              id: doc.id,
+              ...data,
+            },
+          ].concat(prevMessages),
+        );
+      } finally {
+        setSending(false);
+      }
+    },
+    [chat?.id],
+  );
+
+  const loadMessages = useCallback(async (chatId: string) => {
     try {
-      setSending(true);
-      const data: FirestoreMessageData = {
-        text: text,
-        user: user,
-        createdAt: Date.now(),
-      };
+      setLoadingMessage(true);
+      const messagesSnapshot = await firestore()
+        .collection(Collections.CHATS)
+        .doc(chatId)
+        .collection(Collections.MESSAGES)
+        .orderBy('createdAt', 'desc')
+        .get();
+
+      const ms = messagesSnapshot.docs.map<Message>(doc => {
+        const data = doc.data();
+        return {
+          id: doc.id,
+          user: data.user,
+          text: data.text,
+          createdAt: data.createdAt.toDate(),
+        };
+      });
+      setMessages(ms);
     } finally {
-      setSending(false);
+      setLoadingMessage(false);
     }
   }, []);
+
+  useEffect(() => {
+    if (chat?.id != null) {
+      loadMessages(chat.id);
+    }
+  }, [chat?.id, loadMessages]);
 
   return {
     chat,
     loadingChat,
+    sendMessage,
+    messages,
+    sending,
+    loadingMessages,
   };
 };
 

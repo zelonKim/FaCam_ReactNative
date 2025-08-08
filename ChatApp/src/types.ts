@@ -18,6 +18,7 @@ export interface User {
 export enum Collections {
   USERS = 'users',
   CHATS = 'chats',
+  MESSAGES = 'messages',
 }
 
 export interface Chat {
