@@ -1,5 +1,11 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
-import React, { useCallback, useContext, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import Screen from '../component/Screen';
 import { RootStackParamList } from '../types';
 import useChat from './useChat';
@@ -15,6 +21,9 @@ import {
 import Colors from '../modules/Colors';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import AuthContext from '../component/AuthContext';
+import Message from './Message';
+import UserPhoto from '../component/userPhoto';
+import moment from 'moment';
 
 const styles = StyleSheet.create({
   container: {
@@ -51,6 +60,7 @@ const styles = StyleSheet.create({
   },
   messageList: {
     flex: 1,
+    marginVertical: 20,
   },
   inputContainer: {
     flexDirection: 'row',
@@ -83,6 +93,9 @@ const styles = StyleSheet.create({
     color: Colors.WHITE,
     fontSize: 18,
   },
+  messageSeparator: {
+    height: 8,
+  },
 });
 
 const disabledSendButtonStyle = [
@@ -90,18 +103,28 @@ const disabledSendButtonStyle = [
   { backgroundColor: Colors.GRAY },
 ];
 
-
-
 const ChatScreen = () => {
   const { params } = useRoute<RouteProp<RootStackParamList, 'Chat'>>();
   const { other, userIds } = params;
-  const { loadingChat, chat, sendMessage, messages, loadingMessages } =
-    useChat(userIds);
+  const {
+    loadingChat,
+    chat,
+    sendMessage,
+    messages,
+    loadingMessages,
+    updateMessageReadAt,
+  } = useChat(userIds);
   const [text, setText] = useState('');
   const sendDisabled = useMemo(() => text.length === 0, [text]);
   const { user: me } = useContext(AuthContext);
 
   const loading = loadingChat || loadingMessages;
+
+  useEffect(() => {
+    if (me != null && messages.length > 0) {
+      updateMessageReadAt(me.userId);
+    }
+  }, [me, messages.length, updateMessageReadAt]);
 
   const onChangeText = useCallback((newText: string) => {
     setText(newText);
@@ -125,9 +148,13 @@ const ChatScreen = () => {
           <FlatList
             data={chat.users}
             renderItem={({ item: user }) => {
-              <View style={styles.userProfile}>
-                <Text style={styles.userProfileText}>{user.name[0]}</Text>
-              </View>;
+              <UserPhoto
+                size={34}
+                style={styles.userProfile}
+                name={user.name}
+                nameStyle={styles.userProfileText}
+                imageUrl={user.profileUrl}
+              />;
             }}
             horizontal
           />
@@ -138,14 +165,30 @@ const ChatScreen = () => {
           style={styles.messageList}
           data={messages}
           renderItem={({ item: message }) => {
+            const user = chat.users.find(u => u.userId === message.user.userId);
+            const unreadUsers = chat.users.filter(u => {
+              const messageReadAt = userToMessageReadAt[u.userId] ?? null;
+              if (messageReadAt == null) {
+                return true;
+              }
+              return moment(messageReadAt).isBefore(message.createdAt);
+            });
+            const unreadCount = unreadUsers.length;
+
             return (
-              <View>
-                <Text>{message.user.name}</Text>
-                <Text>{message.text}</Text>
-                <Text>{message.createdAt.toISOString()}</Text>
-              </View>
+              <Message
+                name={user?.name ?? ''}
+                text={message.text}
+                createdAt={message.createdAt}
+                isOtherMessage={message.user.userId !== me?.userId}
+                imageUrl={user?.profileUrl}
+                unreadCount={1}
+              />
             );
           }}
+          ItemSeparatorComponent={() => (
+            <View style={styles.messageSeparator} />
+          )}
         />
 
         <View style={styles.inputContainer}>
@@ -166,7 +209,15 @@ const ChatScreen = () => {
         </View>
       </View>
     );
-  }, [chat, onChangeText, text, sendDisabled, onPressSendButton, messages]);
+  }, [
+    chat,
+    onChangeText,
+    text,
+    sendDisabled,
+    onPressSendButton,
+    messages,
+    me?.userId,
+  ]);
 
   return (
     <Screen title={other.name}>

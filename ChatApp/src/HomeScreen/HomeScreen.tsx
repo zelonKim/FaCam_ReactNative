@@ -15,6 +15,9 @@ import firestore from '@react-native-firebase/firestore';
 import { Collections, RootStackParamList, User } from '../types';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import ImageCropPicker from 'react-native-image-crop-picker';
+import Profile from './Profile';
+import UserPhoto from '../component/userPhoto';
 
 const styles = StyleSheet.create({
   container: {
@@ -67,6 +70,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.LIGHT_GRAY,
     borderRadius: 12,
     padding: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   otherNameText: {
     fontSize: 16,
@@ -84,10 +89,20 @@ const styles = StyleSheet.create({
   emptyText: {
     color: Colors.BLACK,
   },
+  profile: {
+    width: 48,
+    height: 48,
+    borderRadius: 48 / 2,
+    backgroundColor: Colors.GRAY,
+    marginRight: 10,
+  },
+  userPhoto: {
+    marginRight: 10,
+  },
 });
 
 const HomeScreen = () => {
-  const { user: me } = useContext(AuthContext);
+  const { user: me, updateProfileImage } = useContext(AuthContext);
   const [loadingUsers, setLoadingUsers] = useState(false);
   const [users, setUsers] = useState<User[]>([]);
   const { navigate } =
@@ -115,22 +130,35 @@ const HomeScreen = () => {
     loadUsers();
   }, [loadUsers]);
 
-  if (me == null) {
-    return null;
-  }
+  const onPressProfile = useCallback(async () => {
+    const image = await ImageCropPicker.openPicker({
+      cropping: true,
+      cropperCircleOverlay: true,
+    });
+    await updateProfileImage(image.path);
+  }, [updateProfileImage]);
 
   const renderLoading = useCallback(() => {
     <View style={styles.loadingContainer}>
       <ActivityIndicator />
     </View>;
-  });
+  }, []);
 
+  if (me == null) {
+    return null;
+  }
   return (
     <Screen title="홈">
       <View style={styles.container}>
         <View>
           <Text style={styles.sectionTitle}>나의 정보</Text>
           <View style={styles.userSectionContent}>
+            <Profile
+              style={styles.profile}
+              onPress={onPressProfile}
+              imageUrl={me.profileUrl}
+            />
+            <TouchableOpacity style={styles.profile} onPress={onPressProfile} />
             <View style={styles.myProfile}>
               <Text style={styles.myNameText}>{me.name}</Text>
               <Text style={styles.myEmailText}>{me.email}</Text>
@@ -160,8 +188,15 @@ const HomeScreen = () => {
                         other: user,
                       });
                     }}>
-                    <Text style={styles.otherNameText}>{user.name}</Text>
-                    <Text style={styles.otherNameText}>{user.email}</Text>
+                    <UserPhoto
+                      style={styles.userPhoto}
+                      imageUrl={user.profileUrl}
+                      name={user.name}
+                    />
+                    <View>
+                      <Text style={styles.otherNameText}>{user.name}</Text>
+                      <Text style={styles.otherNameText}>{user.email}</Text>
+                    </View>
                   </TouchableOpacity>
                 )}
                 ItemSeparatorComponent={() => <View style={styles.separator} />}
