@@ -12,6 +12,7 @@ import firestore, {
   FirebaseFirestoreTypes,
 } from '@react-native-firebase/firestore';
 import _ from 'lodash';
+import storage from '@react-native-firebase/storage';
 
 const getChatKey = (userIds: string[]) => {
   return _.orderBy(userIds, userId => userId, 'asc');
@@ -104,6 +105,7 @@ const useChat = (userIds: string[]) => {
             id: doc.id,
             text: text,
             user: user,
+            imageUrl: null,
             createdAt: new Date(),
           },
         ]);
@@ -177,8 +179,9 @@ const useChat = (userIds: string[]) => {
             const docData = doc.data();
             const newMessage: Message = {
               id: doc.id,
-              text: docData.text,
+              text: docData.text ?? null,
               user: docData.user,
+              imageUrl: docData.imageUrl ?? null,
               createdAt: docData.createdAt.toDate(),
             };
             return newMessage;
@@ -243,6 +246,56 @@ const useChat = (userIds: string[]) => {
     };
   }, [chat]);
 
+  const sendImageMessage = useCallback(
+    async (filepath: string, user: User) => {
+      setSending(true);
+      try {
+        if (chat == null) {
+          throw new Error('Undefined chat');
+        }
+        if (user == null) {
+          throw new Error('Undefined user');
+        }
+        const originalFilename = _.last(filepath.split('/'));
+
+        if (originalFilename == null) {
+          throw new Error('Undefined filename');
+        }
+
+        const fileExt = originalFilename.split('.')[1];
+        const filename = `${Date.now()}.${fileExt}`;
+        const storagePath = `chat/${chat.id}/${filename}`;
+
+        await storage().ref(storagePath).putFile(filepath);
+
+        const url = await storage().ref(storagePath).getDownloadURL();
+
+        const doc = await firestore()
+          .collection(Collections.CHATS)
+          .doc(chat.id)
+          .collection(Collections.MESSAGES)
+          .add({
+            imageUrl: url,
+            user: user,
+            createdAt: firestore.FieldValue.serverTimestamp(),
+          });
+
+        addNewMessages([
+          {
+            id: doc.id,
+            text: text,
+            imageUrl: url,
+            user: user,
+            createdAt: new Date(),
+          },
+        ]);
+      } finally {
+        setSending(false);
+      }
+    },
+    [addNewMessages, chat],
+  );
+
   return {
     chat,
     loadingChat,
@@ -252,6 +305,7 @@ const useChat = (userIds: string[]) => {
     loadingMessages,
     updateMessageReadAt,
     userToMessageReadAt,
+    sendImageMessage,
   };
 };
 
