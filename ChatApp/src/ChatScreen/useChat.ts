@@ -182,6 +182,7 @@ const useChat = (userIds: string[]) => {
               text: docData.text ?? null,
               user: docData.user,
               imageUrl: docData.imageUrl ?? null,
+              audioUrl: docData.audioUrl ?? null,
               createdAt: docData.createdAt.toDate(),
             };
             return newMessage;
@@ -285,6 +286,56 @@ const useChat = (userIds: string[]) => {
             id: doc.id,
             text: text,
             imageUrl: url,
+            audioUrl: null,
+            user: user,
+            createdAt: new Date(),
+          },
+        ]);
+      } finally {
+        setSending(false);
+      }
+    },
+    [addNewMessages, chat],
+  );
+
+  const sendAudioMessage = useCallback(
+    async (filepath: string, user: User) => {
+      setSending(true);
+      try {
+        if (chat == null) {
+          throw new Error('Undefined chat');
+        }
+        if (user == null) {
+          throw new Error('Undefined user');
+        }
+
+        const originalFilename = _.last(filepath.split('/'));
+        if (originalFilename == null) {
+          throw new Error('Undefined filename');
+        }
+
+        const fileExt = originalFilename.split('.')[1];
+        const filename = `${Date.now()}.${fileExt}`;
+        const storagePath = `chat/${chat.id}/${filename}`;
+        await storage().ref(storagePath).putFile(filepath);
+
+        const url = await storage().ref(storagePath).getDownloadURL();
+
+        const doc = await firestore()
+          .collection(Collections.CHATS)
+          .doc(chat.id)
+          .collection(Collections.MESSAGES)
+          .add({
+            audioUrl: url,
+            user: user,
+            createdAt: firestore.FieldValue.serverTimestamp(),
+          });
+        addNewMessages([
+          {
+            id: doc.id,
+            text: null,
+            imageUrl: url,
+            audioUrl: null,
             user: user,
             createdAt: new Date(),
           },
@@ -306,6 +357,7 @@ const useChat = (userIds: string[]) => {
     updateMessageReadAt,
     userToMessageReadAt,
     sendImageMessage,
+    sendAudioMessage,
   };
 };
 

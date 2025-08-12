@@ -6299,6 +6299,11 @@ react-is@^19.1.0:
   resolved "https://registry.npmjs.org/react-is/-/react-is-19.1.1.tgz"
   integrity sha512-tr41fA15Vn8p4X9ntI+yCyeGSf1TlYaY5vlTZfQmeLBrFo3psOPX6HhTDnFNL9uj3EhP0KAQ80cugCl4b4BERA==
 
+react-native-audio-recorder-player@^4.2.2:
+  version "4.2.2"
+  resolved "https://registry.npmjs.org/react-native-audio-recorder-player/-/react-native-audio-recorder-player-4.2.2.tgz"
+  integrity sha512-bS9AwmvXUk7ZMbbFHPLtujrwEm7GEy6z2plHaafygf1F92anwhgMa2xtR9EVCBttndBxXWgKZJq4Z3mV8yLi3A==
+
 react-native-image-crop-picker@^0.51.0:
   version "0.51.0"
   resolved "https://registry.npmjs.org/react-native-image-crop-picker/-/react-native-image-crop-picker-0.51.0.tgz"

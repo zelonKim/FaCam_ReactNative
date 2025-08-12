@@ -1,5 +1,5 @@
 export type RootStackParamList = {
-  Signup: undefined;
+  Signusp: undefined;
   Signin: undefined;
   Home: undefined;
   Loading: undefined;
@@ -33,6 +33,7 @@ export interface Message {
   user: User;
   text: string | null;
   imageUrl: string | null;
+  audioUrl: string | null;
   createdAt: Date;
 }
 

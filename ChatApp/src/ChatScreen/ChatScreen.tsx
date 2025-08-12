@@ -11,6 +11,7 @@ import { RootStackParamList } from '../types';
 import useChat from './useChat';
 import {
   ActivityIndicator,
+  Alert,
   FlatList,
   StyleSheet,
   Text,
@@ -25,6 +26,7 @@ import Message from './Message';
 import UserPhoto from '../component/userPhoto';
 import moment from 'moment';
 import ImageCropPicker from 'react-native-image-crop-picker';
+import MicButton from './MicButton';
 
 const styles = StyleSheet.create({
   container: {
@@ -103,9 +105,10 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 8,
-    marginLeft: 8,
     alignItems: 'center',
     justifyContent: 'center',
+    marginLeft: 8,
+    marginRight: 8,
   },
   imageIcon: {
     color: Colors.BLACK,
@@ -133,8 +136,9 @@ const ChatScreen = () => {
     loadingMessages,
     updateMessageReadAt,
     sendImageMessage,
+    sendAudioMessage,
   } = useChat(userIds);
-  
+
   const [text, setText] = useState('');
   const sendDisabled = useMemo(() => text.length === 0, [text]);
   const { user: me } = useContext(AuthContext);
@@ -164,6 +168,23 @@ const ChatScreen = () => {
       sendImageMessage(image.path, me);
     }
   }, [me, sendImageMessage]);
+
+  const onRecorded = useCallback(
+    (path: string) => {
+      Alert.alert('녹음 완료', '음성 메시지를 보낼까요?', [
+        { text: '아니요' },
+        {
+          text: '네',
+          onPress: () => {
+            if (me != null) {
+              sendAudioMessage(path, me);
+            }
+          },
+        },
+      ]);
+    },
+    [me, sendAudioMessage],
+  );
 
   const renderChat = useCallback(() => {
     if (chat == null) {
@@ -268,6 +289,9 @@ const ChatScreen = () => {
             onPress={onPressImageButton}>
             <Icon name="image" style={styles.imageIcon} />
           </TouchableOpacity>
+          <View>
+            <MicButton onRecorded={onRecorded} />
+          </View>
         </View>
       </View>
     );
@@ -282,6 +306,7 @@ const ChatScreen = () => {
     userToMessageReadAt,
     onPressImageButton,
     sending,
+    onRecorded,
   ]);
 
   return (
