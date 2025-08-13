@@ -4,18 +4,23 @@ import moment from 'moment';
 import Colors from '../modules/Colors';
 import UserPhoto from '../component/userPhoto';
 import ImageMessage from './ImageMessage';
+import AudioMessage from './AudioMessage';
 
 interface TextMessage {
   text: string;
 }
 
 interface ImageMessage {
-  url: string;
+  imageUrl: string;
+}
+
+interface AudioMessage {
+  audioUrl: string;
 }
 
 interface MessageProps {
   name: string;
-  message: TextMessage | ImageMessage;
+  message: TextMessage | ImageMessage | AudioMessage;
   createdAt: Date;
   isOtherMessage: boolean;
   userImageUrl?: string;
@@ -96,7 +101,12 @@ const Message = ({
     if ('url' in message) {
       return <ImageMessage url={message.url} />;
     }
-  }, [message, messageStyles.messageText]);
+    if ('audioUrl' in message) {
+      return (
+        <AudioMessage url={message.audioUrl} isOtherMessage={isOtherMessage} />
+      );
+    }
+  }, [message, messageStyles.messageText, isOtherMessage]);
 
   const renderMessageContainer = useCallback(() => {
     const components = [

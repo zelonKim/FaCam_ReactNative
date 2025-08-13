@@ -242,12 +242,15 @@ const ChatScreen = () => {
               return (
                 <Message
                   {...commonProps}
-                  name={user?.name ?? ''}
-                  message={{ url: message.imageUrl }}
-                  createdAt={message.createdAt}
-                  isOtherMessage={message.user.userId !== me?.userId}
-                  userImageUrl={user?.profileUrl}
-                  unreadCount={unreadCount}
+                  message={{ imageUrl: message.imageUrl }}
+                />
+              );
+            }
+            if (message.audioUrl != null) {
+              return (
+                <Message
+                  {...commonProps}
+                  message={{ audioUrl: message.audioUrl }}
                 />
               );
             }
