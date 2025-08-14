@@ -18,6 +18,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import Profile from './Profile';
 import UserPhoto from '../component/userPhoto';
+import messaging from '@react-native-firebase/messaging';
 
 const styles = StyleSheet.create({
   container: {
@@ -144,6 +145,37 @@ const HomeScreen = () => {
     </View>;
   }, []);
 
+  useEffect(() => {
+    const unsubscribe = messaging().onNotificationOpenedApp(remoteMessage => {
+      console.log(remoteMessage);
+      const stringifiedUserIds = remoteMessage.data?.userIds;
+
+      if (stringifiedUserIds != null) {
+        const userIds = JSON.parse(stringifiedUserIds) as string[];
+        console.log(userIds);
+        navigate('Chat', { userIds });
+      }
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, [navigate]);
+
+  useEffect(() => {
+    messaging()
+      .getInitialNotification()
+      .then(remoteMessage => {
+        console.log(remoteMessage);
+
+        const stringifiedUserIds = remoteMessage?.data?.userIds;
+        if (stringifiedUserIds != null) {
+          const userIds = JSON.parse(stringifiedUserIds) as string[];
+          console.log(userIds);
+          navigate('Chat', { userIds });
+        }
+      });
+  }, [navigate]);
+
   if (me == null) {
     return null;
   }
@@ -185,7 +217,6 @@ const HomeScreen = () => {
                     onPress={() => {
                       navigate('Chat', {
                         userIds: [me.userId, user.userId],
-                        other: user,
                       });
                     }}>
                     <UserPhoto
