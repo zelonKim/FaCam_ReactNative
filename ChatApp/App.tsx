@@ -12,6 +12,7 @@ import HomeScreen from './src/HomeScreen/HomeScreen';
 import LoadingScreen from './src/LoadingScreen/LoadingScreen';
 import ChatScreen from './src/ChatScreen/ChatScreen';
 import usePushNotification from './src/hooks/usePushNotification';
+import Toast from 'react-native-toast-message';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -57,6 +58,7 @@ const App = () => {
   return (
     <AuthProvider>
       <Screens />
+      <Toast />
     </AuthProvider>
   );
 };

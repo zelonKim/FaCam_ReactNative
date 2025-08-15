@@ -13,12 +13,13 @@ import Colors from '../modules/Colors';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import { Collections, RootStackParamList, User } from '../types';
-import { useNavigation } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import Profile from './Profile';
 import UserPhoto from '../component/userPhoto';
 import messaging from '@react-native-firebase/messaging';
+import Toast from 'react-native-toast-message';
 
 const styles = StyleSheet.create({
   container: {
@@ -109,6 +110,8 @@ const HomeScreen = () => {
   const { navigate } =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
+  const isFocused = useIsFocused();
+
   const onPressLogout = useCallback(() => {
     auth().signOut();
   }, []);
@@ -175,6 +178,34 @@ const HomeScreen = () => {
         }
       });
   }, [navigate]);
+
+  useEffect(() => {
+    const unsubscribe = messaging().onMessage(remoteMessage => {
+      const { notification } = remoteMessage;
+
+      if (notification != null) {
+        const { title, body } = notification;
+
+        if (isFocused) {
+          Toast.show({
+            type: 'success',
+            text1: title,
+            text2: body,
+            onPress: () => {
+              const stringifiedUserIds = remoteMessage.data?.userIds;
+              if (stringifiedUserIds != null) {
+                const userIds = JSON.parse(stringifiedUserIds) as string[];
+                navigate('Chat', { userIds });
+              }
+            },
+          });
+        }
+      }
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, [navigate, isFocused]);
 
   if (me == null) {
     return null;
