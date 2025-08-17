@@ -58,6 +58,7 @@ interface MovieProps {
 }
 
 const Movie = ({
+  id,
   title,
   originalTitle,
   releaseDate,
@@ -68,11 +69,11 @@ const Movie = ({
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const onPress = useCallback(() => {
-    navigate('Movie');
-  }, []);
+    navigate('Movie', { id });
+  }, [id, navigate]);
 
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       <View style={styles.poster}>
         {posterUrl != null && (
           <Image style={styles.posterImage} source={{ uri: posterUrl }} />
