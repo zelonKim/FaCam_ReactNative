@@ -4,6 +4,7 @@ import notifee, {
   AndroidNotificationSetting,
   AuthorizationStatus,
   TimestampTrigger,
+  TriggerNotification,
   TriggerType,
 } from '@notifee/react-native';
 import { Platform } from 'react-native';
@@ -63,12 +64,43 @@ const useReminder = () => {
         },
         trigger,
       );
+      await loadReminders();
     },
-    [channelId],
+    [channelId, loadReminders],
+  );
+
+  const [reminders, setReminders] = useState<TriggerNotification[]>([]);
+
+  const loadReminders = useCallback(async () => {
+    const notifications = await notifee.getTriggerNotifications();
+    setReminders(notifications);
+  }, []);
+
+  useEffect(() => {
+    loadReminders();
+  }, [loadReminders]);
+
+  const removeReminder = useCallback(
+    async (id: string) => {
+      await notifee.cancelTriggerNotification(id);
+      await loadReminders();
+    },
+    [loadReminders],
+  );
+
+  const hasReminder = useCallback(
+    (id: string) => {
+      const reminder = reminders.find(r => r.notification.id === id);
+      return reminder != null;
+    },
+    [reminders],
   );
 
   return {
     addReminder,
+    removeReminder,
+    reminders,
+    hasReminder,
   };
 };
 

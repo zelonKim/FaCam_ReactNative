@@ -6,6 +6,7 @@ import MoviesScreen from './src/screens/MoviesScreen/MoviesScreen';
 import { QueryClient } from '@tanstack/react-query';
 import { QueryClientProvider } from '@tanstack/react-query';
 import MovieScreen from './src/screens/MovieScreen/MovieScreen';
+import RemindersScreen from './src/screens/RemindersScreen/RemindersScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const queryClient = new QueryClient();
@@ -17,6 +18,7 @@ function App() {
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Movies" component={MoviesScreen} />
           <Stack.Screen name="Movie" component={MovieScreen} />
+          <Stack.Screen name="Reminders" component={RemindersScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </QueryClientProvider>

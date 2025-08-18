@@ -6,11 +6,13 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  useColorScheme,
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { JSX } from 'react/jsx-runtime';
 
 const styles = StyleSheet.create({
   container: {
@@ -56,9 +58,17 @@ interface ScreenProps {
   title?: string;
   children?: React.ReactNode;
   headerVisible?: boolean;
+  renderRightComponent?: () => JSX.Element;
 }
 
-const Screen = ({ children, title, headerVisible = true }: ScreenProps) => {
+const Screen = ({
+  children,
+  title,
+  headerVisible = true,
+  renderRightComponent,
+}: ScreenProps) => {
+  const colorScheme = useColorScheme();
+
   const { goBack, canGoBack } = useNavigation();
 
   const onPressBackButton = useCallback(() => {
@@ -68,6 +78,8 @@ const Screen = ({ children, title, headerVisible = true }: ScreenProps) => {
   return (
     <SafeAreaView style={styles.container}>
       {Platform.OS === 'ios' ? (
+        <StatusBar barStyle="light-content" />
+      ) : colorScheme === 'dark' ? (
         <StatusBar barStyle="light-content" />
       ) : (
         <StatusBar barStyle="dark-content" />
@@ -85,7 +97,9 @@ const Screen = ({ children, title, headerVisible = true }: ScreenProps) => {
           <View style={styles.center}>
             <Text style={styles.headerTitle}>{title}</Text>
           </View>
-          <View style={styles.right} />
+          <View style={styles.right}>
+            {renderRightComponent != null && renderRightComponent()}
+          </View>
         </View>
       )}
 
