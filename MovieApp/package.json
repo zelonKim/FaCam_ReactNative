@@ -20,6 +20,7 @@
     "open-color": "^1.9.1",
     "react": "19.1.0",
     "react-native": "0.80.2",
+    "react-native-google-mobile-ads": "^15.4.1",
     "react-native-safe-area-view": "^2.0.0",
     "react-native-screen": "^1.0.1",
     "react-native-vector-icons": "^10.3.0",

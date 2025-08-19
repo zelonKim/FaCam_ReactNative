@@ -20,6 +20,7 @@ import YouTubeVideo from '../MoviesScreen/YouTubeVideo';
 import CalendarModule from '../../modules/CalendarModule';
 import moment from 'moment';
 import useReminder from '../../hooks/useReminder';
+import RewardAd from '../../components/RewardAd';
 
 const styles = StyleSheet.create({
   loadingContainer: {
@@ -226,6 +227,7 @@ const MovieScreen = () => {
       ) : (
         renderMovie()
       )}
+      <RewardAd />
     </Screen>
   );
 };

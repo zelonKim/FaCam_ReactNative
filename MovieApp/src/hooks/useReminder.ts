@@ -48,6 +48,17 @@ const useReminder = () => {
         throw new Error('Channel is not created');
       }
 
+      const MAX_REMINDER_NUM_FOR_FREE = 2;
+
+      
+      const triggeredNotifications = await notifee.getTriggerNotifications();
+
+      if (triggeredNotifications.length >= MAX_REMINDER_NUM_FOR_FREE) {
+        throw new Error(
+          `Free users can add up to ${MAX_REMINDER_NUM_FOR_FREE} reminders`,
+        );
+      }
+
       const trigger: TimestampTrigger = {
         type: TriggerType.TIMESTAMP,
         timestamp: moment(releaseDate).valueOf(),

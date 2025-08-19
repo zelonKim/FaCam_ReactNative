@@ -13,6 +13,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { JSX } from 'react/jsx-runtime';
+import ScreenBannerAd from './ScreenBannerAd';
 
 const styles = StyleSheet.create({
   container: {
@@ -103,6 +104,8 @@ const Screen = ({
         </View>
       )}
 
+      <ScreenBannerAd />
+      
       <View style={styles.body}>{children}</View>
     </SafeAreaView>
   );

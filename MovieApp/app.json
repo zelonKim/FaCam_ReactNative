@@ -1,4 +1,8 @@
 {
   "name": "MovieApp",
-  "displayName": "MovieApp"
+  "displayName": "MovieApp",
+  "react-native-google-mobile-ads": {
+    "android_app_id": "ca-app-pub-341534252435-234234324",
+    "ios_app_id": "ca-app-pub-756756765-564574567"
+  }
 }
