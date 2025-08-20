@@ -1,6 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { ActivityIndicator, Platform, StyleSheet, View } from 'react-native';
 import {
+  AdEventType,
   RewardedAdEventType,
   RewardedInterstitialAd,
   TestIds,
@@ -28,29 +29,79 @@ const adUnitId = __DEV__
   ? 'ca-app-pub-898349852935325/534523453'
   : 'ca-app-pub-298453435564563/7688578576';
 
-  
-const RewardAd = () => {
+interface RewardAdShowParam {
+  onRewarded?: (rewarded: boolean) => void;
+}
+
+interface RewardAdRef {
+  show: (param: RewardAdShowParam) => void;
+}
+
+const RewardAd = React.forwardRef<RewardAdRef>((props, ref) => {
   const rewardedAdRef = useRef(
     RewardedInterstitialAd.createForAdRequest(adUnitId),
   );
 
   const [loaded, setLoaded] = useState(false);
 
-  useEffect(() => {
-    rewardedAdRef.current.addAdEventListener(RewardedAdEventType.LOADED, () => {
-      setLoaded(true);
-      console.log('loaded');
-    });
-    rewardedAdRef.current.load();
-  }, []);
+  const onRewardedRef = useRef<RewardAdShowParam['onRewarded']>();
+  const [visible, setVisible] = useState(false);
+  const rewardedRef = useRef(false);
 
   useEffect(() => {
-    if (loaded) {
-      rewardedAdRef.current.show();
+    const unsubscribeLoaded = rewardedAdRef.current.addAdEventListener(
+      RewardedAdEventType.LOADED,
+      () => {
+        setLoaded(true);
+        console.log('loaded');
+      },
+    );
+
+    const unsubscribeEarned = rewardedAdRef.current.addAdEventListener(
+      RewardedAdEventType.EARNED_REWARD,
+      () => {
+        rewardedRef.current = true;
+      },
+    );
+
+    const unsubscribeClosed = rewardedAdRef.current.addAdEventListener(
+      AdEventType.CLOSED
+      () => {
+        if (onRewardedRef.current != null) {
+          onRewardedRef.current(rewardedRef.current);
+        }
+        rewardedRef.current = false;
+        setVisible(false);
+        setLoaded(false);
+      },
+    );
+
+    if (!loaded) {
+      rewardedAdRef.current.load();
     }
+
+    return () => {
+      unsubscribeLoaded();
+      unsubscribeEarned();
+      unsubscribeClosed();
+    };
   }, [loaded]);
 
-  if (!loaded) {
+  
+  useEffect(() => {
+    if (visible && loaded) {
+      rewardedAdRef.current.show();
+    }
+  }, [visible, loaded]);
+
+  useImperativeHandle(ref, () => ({
+    show: ({ onRewarded }) => {
+      onRewardedRef.current = onRewarded;
+      setVisible(true);
+    },
+  }));
+
+  if (visible && !loaded) {
     return (
       <View style={styles.container}>
         <ActivityIndicator />
@@ -59,6 +110,6 @@ const RewardAd = () => {
   }
 
   return null;
-};
+});
 
 export default RewardAd;
