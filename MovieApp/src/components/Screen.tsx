@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useCallback } from 'react';
+import React, { useCallback, useContext } from 'react';
 import {
   Platform,
   StatusBar,
@@ -12,10 +12,11 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { JSX } from 'react/jsx-runtime'; 
+import { JSX } from 'react/jsx-runtime';
 import ScreenBannerAd from './ScreenBannerAd';
 import { RootStackParamList } from '../types';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import SubscriptionContext from './SubscriptionContext';
 
 const styles = StyleSheet.create({
   container: {
@@ -87,6 +88,8 @@ const Screen = ({
     goBack();
   }, [goBack]);
 
+  const { subscribed } = useContext(SubscriptionContext);
+
   return (
     <SafeAreaView style={styles.container}>
       {Platform.OS === 'ios' ? (
@@ -115,19 +118,21 @@ const Screen = ({
         </View>
       )}
 
-      <TouchableOpacity
-        style={styles.subscription}
-        onPress={() => {
-          navigate('Purchase');
-        }}
-      >
-        <Text style={styles.subscriptionText}>
-          구독하고 광고없이 앱을 무제한으로 사용해 보세요
-        </Text>
-      </TouchableOpacity>
-
-      <ScreenBannerAd />
-
+      {!subscribed && (
+        <>
+          <TouchableOpacity
+            style={styles.subscription}
+            onPress={() => {
+              navigate('Purchase');
+            }}
+          >
+            <Text style={styles.subscriptionText}>
+              구독하고 광고없이 앱을 무제한으로 사용해 보세요
+            </Text>
+          </TouchableOpacity>
+          <ScreenBannerAd />
+        </>
+      )}
       <View style={styles.body}>{children}</View>
     </SafeAreaView>
   );
